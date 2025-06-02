@@ -29,6 +29,7 @@ class User extends Model{
         type : DataType.STRING
     })
     declare email:string
+    
     @Column({
         type : DataType.ENUM('teacher','institute','super-admin','student'), 
         defaultValue : 'student', 
