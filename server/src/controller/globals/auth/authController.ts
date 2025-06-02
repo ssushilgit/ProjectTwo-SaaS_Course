@@ -42,7 +42,7 @@ const registerUser = async (req : Request, res : Response) =>{
 
 
 class AuthController{
-    async registerUser(req:  Request, res: Response){
+    static async registerUser(req:  Request, res: Response){
         const {username, password, email} = req.body
     if(!username || !password || !email){
         res.status(404).json({
@@ -64,5 +64,7 @@ class AuthController{
     }
 }
 
-export default registerUser
+
+// export default registerUser
+export default AuthController
 
