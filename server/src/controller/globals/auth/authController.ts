@@ -13,8 +13,10 @@ RESET PASSWORD / OTP
 
 import { Request , Response} from "express"
 import User from "../../../database/models/user.model"
+import bcrypt from "bcrypt"
 // json data --> req.body --> username, email, pasword
 //files --> req.files --> image, files
+
 const registerUser = async (req : Request, res : Response) =>{
     // const username = req.body.username
     // const password = req.body.password
@@ -26,6 +28,7 @@ const registerUser = async (req : Request, res : Response) =>{
             success : false, 
             message : "All fields are require !!!"
         })
+        return
     } 
     // insert into users table
     await User.create({
@@ -40,20 +43,28 @@ const registerUser = async (req : Request, res : Response) =>{
     })
 }
 
-
 class AuthController{
     static async registerUser(req:  Request, res: Response){
-        const {username, password, email} = req.body
+    if(req.body == undefined){
+        // console.log(req.body)
+        res.status(400).json({
+            message : "No data found"
+        })
+        return
+    }
+
+    const {username, password, email} = req.body
     if(!username || !password || !email){
         res.status(404).json({
             success : false, 
             message : "All fields are require !!!"
         })
+        return
     } 
     // insert into users table
     await User.create({
         username : username,
-        password : password,
+        password : bcrypt.hashSync(password,12),
         email : email
         // role vayo vane bola - broken object authorization attack auxa
     })
@@ -67,4 +78,5 @@ class AuthController{
 
 // export default registerUser
 export default AuthController
+
 
