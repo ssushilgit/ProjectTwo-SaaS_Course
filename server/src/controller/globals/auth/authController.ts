@@ -16,7 +16,6 @@ import User from "../../../database/models/user.model"
 import bcrypt from "bcrypt"
 // json data --> req.body --> username, email, pasword
 //files --> req.files --> image, files
-
 const registerUser = async (req : Request, res : Response) =>{
     // const username = req.body.username
     // const password = req.body.password
@@ -42,6 +41,17 @@ const registerUser = async (req : Request, res : Response) =>{
         message : "User registered successfully"
     })
 }
+
+/* 
+login flow
+email/username, password (basic)
+email, password --> data accept --> validation
+first check whether email exist or not (verification) --> yes then check password now --> milyo vane token generation(jsonwebtoken) --> token generate vayena vane kolle login garyo tha hunna
+
+google login, fb, github login (oauth)
+email login
+*/
+
 
 class AuthController{
     static async registerUser(req:  Request, res: Response){
@@ -73,8 +83,46 @@ class AuthController{
         message : "User registered successfully"
     })
     }
-}
 
+    static async loginUser(req : Request, res : Response){
+        const  {email, password } = req.body
+        if(!email || !password){
+            res.status(404).json({
+                success : false,
+                message : "Please provide email and password"
+            })
+            return
+        }
+
+        // check if email exist in users table
+        // kunai pani table bata sabai data nikalyo vane array ko format ma auxa tara euta matra specific data nikalyo vane object ko form ma auxa
+        const data = await User.findAll({
+            where : {
+                email : email
+            }
+        })
+        if(data.length ==0){
+            res.status(404).json({
+                success : false,
+                message : "Not registered!"
+            })
+        }else{
+            // check password, password lai hash ma convert garna parxa, duita hash lai compare garna parxa
+            // bcrypt.compareSync(plain password jun user bata ako, hashed password jun register huda vako thyo)
+            const isPasswordMatch = bcrypt.compareSync(password, data[0].password)
+            if(isPasswordMatch){
+                // password match vaayo vane, login vayo, token generate vayo
+            } else {
+                res.status(403).json({
+                    success : false, 
+                    message : "Invalid email or pasword!"
+                })
+            }
+            
+        }
+
+    }
+}
 
 // export default registerUser
 export default AuthController
