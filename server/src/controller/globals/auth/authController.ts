@@ -14,6 +14,7 @@ RESET PASSWORD / OTP
 import { Request , Response} from "express"
 import User from "../../../database/models/user.model"
 import bcrypt from "bcrypt"
+import  jwt  from "jsonwebtoken"
 // json data --> req.body --> username, email, pasword
 //files --> req.files --> image, files
 const registerUser = async (req : Request, res : Response) =>{
@@ -111,7 +112,14 @@ class AuthController{
             // bcrypt.compareSync(plain password jun user bata ako, hashed password jun register huda vako thyo)
             const isPasswordMatch = bcrypt.compareSync(password, data[0].password)
             if(isPasswordMatch){
-                // password match vaayo vane, login vayo, token generate vayo
+                // password match vaayo vane, login vayo, token generate vayo - token vaneko user ko identity ho jun ma chai user ko kehi unique kura lukeko hunxa - token generate vayesi frontend lai dinxa
+                const token = jwt.sign({id : data[0].id}, "thisissecret",{
+                    expiresIn :"90d"
+                })
+                res.json({
+                    token : token
+                })
+
             } else {
                 res.status(403).json({
                     success : false, 
