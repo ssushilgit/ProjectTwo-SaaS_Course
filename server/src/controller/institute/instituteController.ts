@@ -2,7 +2,15 @@ import { Request, Response } from "express";
 import sequelize from "../../database/connection";
 import generateRandomInstituteNumber from "../../services/generateRandomInstituteNumber";
 
-     const createInstitute = async (req : Request, res: Response) =>{
+interface IExtendedRequest extends Request{
+    user?: {
+        name : string, 
+        age :number
+    }
+} 
+
+     const createInstitute = async (req : IExtendedRequest, res: Response) =>{
+        console.log(req.user && req.user.name, "Name from middleware")
         const {instituteName, instituteEmail, institutePhoneNumber, instituteAddress} = req.body
         const instituteVatNo = req.body.instituteVatNo || null
         const institutePanNo = req.body.institutePanNo || null
@@ -17,9 +25,9 @@ import generateRandomInstituteNumber from "../../services/generateRandomInstitut
 
         // aayo vane - institute create garna paryo  --> institute_123123, course_123123
         // for creating institute(name) table
-        const instituteNuber = generateRandomInstituteNumber()
+        const instituteNumber = generateRandomInstituteNumber()
 
-        await sequelize.query(`CREATE TABLE IF NOT EXISTS institute_${instituteNuber} (
+        await sequelize.query(`CREATE TABLE IF NOT EXISTS institute_${instituteNumber} (
                 id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
                 instituteName VARCHAR(255) NOT NULL,
                 instituteEmail VARCHAR(255) NOT NULL UNIQUE, 
@@ -31,21 +39,22 @@ import generateRandomInstituteNumber from "../../services/generateRandomInstitut
                 updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
             )`)
         
-        await sequelize.query(`INSERT INTO institute_${instituteNuber}(instituteName, instituteEmail, institutePhoneNumber, instituteAddress, instituteVatNo, institutePanNo) VALUES(?,?,?,?,?,?)` , {
+        await sequelize.query(`INSERT INTO institute_${instituteNumber}(instituteName, instituteEmail, institutePhoneNumber, instituteAddress, instituteVatNo, institutePanNo) VALUES(?,?,?,?,?,?)` , {
             replacements : [instituteName, instituteEmail, institutePhoneNumber, instituteAddress, instituteVatNo, institutePanNo]
         })
 
-        await sequelize.query(`CREATE TABLE teacher_${instituteNuber} (
-            id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, 
-            teacherName VARCHAR(255) NOT NULL, 
-            teacherEmail VARCHAR(255) NOT NULL UNIQUE, 
-            teacherPhoneNumber VARCHAR(255) NOT NULL UNIQUE
-            )`)
-
         res.status(200).json({
-            success : true,
             message : "Institute created !!!"
         })
+    }
+
+    const createTeacherTable = async (req : Request, res : Response) =>{
+        //  await sequelize.query(`CREATE TABLE teacher_${instituteNumber} (
+        //     id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, 
+        //     teacherName VARCHAR(255) NOT NULL, 
+        //     teacherEmail VARCHAR(255) NOT NULL UNIQUE, 
+        //     teacherPhoneNumber VARCHAR(255) NOT NULL UNIQUE
+        // )`)
     }
 
 

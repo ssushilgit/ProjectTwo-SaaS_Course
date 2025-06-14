@@ -4,6 +4,6 @@ import authController from "../../../controller/globals/auth/authController";
 const router:Router = express.Router()
 
 router.route("/register").post(authController.registerUser)
-router.route("/login").get(authController.loginUser)
+router.route("/login").post(authController.loginUser)
 
 export default router
