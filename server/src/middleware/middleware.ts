@@ -2,19 +2,19 @@ import { Request, Response, NextFunction } from "express";
 import jwt from 'jsonwebtoken'
 import User from "../database/models/user.model";
 
-interface IExtendRequest extends Request{
+interface IExtendedRequest extends Request{
     user ?: {
-        name : string,
-        age : number
+         email : string, 
+        role : string,
+        username : string | null
     }
 }
 
 
- const isLoggedIn = async (req: IExtendRequest, res:Response, next: NextFunction):Promise<void> =>{
+ const isLoggedIn = async (req: IExtendedRequest, res:Response, next: NextFunction):Promise<void> =>{
         // check if logged in or not
         // token accept
         // console.log("isLoggedIn triggered")
-        const name = "Sushil Shrestha"
         const token = req.headers.authorization
         // console.log(token)
         // eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWUsImlhdCI6MTUxNjIzOTAyMn0.KMUFsIDTnFmyG3nMiGM6H9FNFUROf3wh7SmqJp-QV30
@@ -46,15 +46,11 @@ interface IExtendRequest extends Request{
                         message : "No user with that id, invalid token"
                     })
                 } else {
-                    req.user = {
-                        name : "sushil",
-                        age :24
-                    }
+                    req.user = userData
+                    next() // next lekhepaxi instituteRoute.ts ma arko function trigger hunxa
                 }
-                 next() // next lekhepaxi instituteRoute.ts ma arko function trigger hunxa
             }
-        })
-       
+        }) 
 }
 
 export default isLoggedIn

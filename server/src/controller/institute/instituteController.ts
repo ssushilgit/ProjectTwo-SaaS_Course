@@ -1,4 +1,4 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import sequelize from "../../database/connection";
 import generateRandomInstituteNumber from "../../services/generateRandomInstituteNumber";
 
@@ -9,8 +9,9 @@ interface IExtendedRequest extends Request{
     }
 } 
 
-     const createInstitute = async (req : IExtendedRequest, res: Response) =>{
-        console.log(req.user && req.user.name, "Name from middleware")
+     const createInstitute = async (req : IExtendedRequest, res: Response, next: NextFunction) =>{
+        console.log(req.user, 
+            "Name from middleware")
         const {instituteName, instituteEmail, institutePhoneNumber, instituteAddress} = req.body
         const instituteVatNo = req.body.instituteVatNo || null
         const institutePanNo = req.body.institutePanNo || null
@@ -42,10 +43,8 @@ interface IExtendedRequest extends Request{
         await sequelize.query(`INSERT INTO institute_${instituteNumber}(instituteName, instituteEmail, institutePhoneNumber, instituteAddress, instituteVatNo, institutePanNo) VALUES(?,?,?,?,?,?)` , {
             replacements : [instituteName, instituteEmail, institutePhoneNumber, instituteAddress, instituteVatNo, institutePanNo]
         })
-
-        res.status(200).json({
-            message : "Institute created !!!"
-        })
+        next()
+     
     }
 
     const createTeacherTable = async (req : Request, res : Response) =>{
