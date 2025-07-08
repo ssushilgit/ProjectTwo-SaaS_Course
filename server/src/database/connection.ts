@@ -14,9 +14,9 @@ const sequelize = new Sequelize({
 })
 
 
-sequelize.authenticate()
+sequelize.authenticate() 
 .then(()=>{
-    console.log("Authenticated, connected")
+    console.log("Authenticated, connected") 
 })
 .catch((error)=>{
     console.log(error)
