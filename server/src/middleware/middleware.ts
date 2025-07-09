@@ -5,11 +5,9 @@ import User from "../database/models/user.model";
 
 interface IExtendedRequest extends Request{
     user ?: {
-        id : string,
-        email : string, 
-        role : string, 
-        username : string | null
-    }, 
+        id : string,     
+        currentInstituteNumber : string
+    },
     instituteNumber ?: number | string
 }
  
@@ -39,7 +37,16 @@ const isLoggedIn = async (req:IExtendedRequest,res:Response,next:NextFunction)=>
             //             id : resultaayo.id
             //         }
             //     })
-            const userData = await User.findByPk(result.id)
+            const userData = await User.findByPk(result.id, {
+                attributes : ['id', 'currentInstituteNumber']
+            })
+
+            /*
+                userData = {
+                    id : "",
+                    currentInstituteNumber : ""
+                }
+            */
             if(!userData){
                 res.status(403).json({
                     message : "No user with that id, invalid token "
