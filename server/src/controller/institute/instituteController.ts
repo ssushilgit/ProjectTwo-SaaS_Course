@@ -100,7 +100,7 @@ const createStudentTable = async(req:IExtendedRequest,res:Response,next:NextFunc
         studentName VARCHAR(255) NOT NULL, 
         studentPhoneNo VARCHAR(255) NOT NULL UNIQUE,
         studentAddress TEXT,
-        enrolledDate DATE,
+        enrolledDate DATE ,
         studentImage VARCHAR(255),
         createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
@@ -119,7 +119,7 @@ const createCourseTable = async(req:IExtendedRequest,res:Response)=>{
         createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
         )`)
-
+ 
         res.status(200).json({
             message : "Institute created vayoo!!!", 
             instituteNumber, 

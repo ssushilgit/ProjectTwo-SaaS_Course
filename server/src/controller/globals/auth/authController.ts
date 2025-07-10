@@ -121,7 +121,7 @@ class AuthController{
                     message : "logged in success"
                 })
 
-            } else {
+            } else { 
                 res.status(403).json({
                     success : false, 
                     message : "Invalid email or pasword!"
