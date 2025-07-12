@@ -7,8 +7,7 @@ interface IExtendedRequest extends Request{
     user ?: {
         id : string,     
         currentInstituteNumber : string
-    },
-    instituteNumber ?: number | string
+    }
 }
  
 const isLoggedIn = async (req:IExtendedRequest,res:Response,next:NextFunction)=>{

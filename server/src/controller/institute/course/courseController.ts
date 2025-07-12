@@ -2,20 +2,27 @@ import { Request, Response } from "express";
 import sequelize from "../../../database/connection";
 import { IExtendedRequest } from "../../../middleware/type";
 
-const createCourse = (req: IExtendedRequest, res: Response) =>{
-    const instituteNumber = req.user?.currentInstituteNumber
-    const {courseName, coursePrice, courseDescription, courseDuration, courseLevel} = req.body
-    if(!courseName || !coursePrice || !courseDescription || !courseDuration || !courseLevel ) {
-        return res.status(401).json({
-            message : "Please provide courseName, coursePrice, courseDescription, courseDuration, courseLevel"
-        })
-    }  
-    
-    const courseThumbnail = ""
+const createCourse = async (req: IExtendedRequest, res: Response) =>{
 
-    const returnedData = sequelize.query(`INSERT INTO course_${instituteNumber}(courseName, coursePrice, courseDescription, courseDuration, courseLevel, courseThumbnail) VALUES(?,?,?,?,?,?)`,{
-        replacements : [courseName, coursePrice, courseDescription, courseDuration, courseLevel, courseThumbnail || "https://digitalpathshalanepal.com/image/hello.png" ]
+    // console.log("req.body =", req.body);
+    // console.log("req.file =", req.file);
+    const instituteNumber = req.user?.currentInstituteNumber
+    const { courseName, coursePrice, courseDescription, courseDuration, courseLevel } = req.body;
+
+    if (!courseName || !coursePrice || !courseDescription || !courseDuration || !courseLevel) {
+    return res.status(401).json({
+        message: "Please provide courseName, coursePrice, courseDescription, courseDuration, courseLevel"
+    });
+    }
+ 
+    
+    console.log(req.file, "req.file")
+    const courseThumbnail = req.file ? req.file.filename : null
+
+    const [returnedData] = await sequelize.query(`INSERT INTO course_${instituteNumber}(courseName, coursePrice, courseDescription, courseDuration, courseLevel, courseThumbnail) VALUES(?,?,?,?,?,?)`,{
+        replacements : [courseName, coursePrice, courseDescription, courseDuration, courseLevel, courseThumbnail]
     })
+
     console.log(returnedData)
     res.status(200).json({
         message : "Course created successfully",

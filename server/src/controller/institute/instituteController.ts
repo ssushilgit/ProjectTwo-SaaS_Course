@@ -65,7 +65,9 @@ const createInstitute = async (req:IExtendedRequest,res:Response,next:NextFuncti
             })
           }
 
-         req.instituteNumber = instituteNumber  
+           if(req.user){
+              req.user.currentInstituteNumber = instituteNumber  
+          }
         // req.user?.instituteNumber = instituteNumber; 
 
         next()
@@ -78,7 +80,7 @@ const createInstitute = async (req:IExtendedRequest,res:Response,next:NextFuncti
 
 const createTeacherTable = async (req:IExtendedRequest,res:Response,next:NextFunction)=>{
           
-            const instituteNumber = req.instituteNumber
+            const instituteNumber = req.user?.currentInstituteNumber
             await sequelize.query(`CREATE TABLE IF NOT EXISTS teacher_${instituteNumber}(
             id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, 
             teacherName VARCHAR(255) NOT NULL, 
@@ -94,7 +96,7 @@ const createTeacherTable = async (req:IExtendedRequest,res:Response,next:NextFun
 }
 
 const createStudentTable = async(req:IExtendedRequest,res:Response,next:NextFunction)=>{
-    const instituteNumber = req.instituteNumber
+    const instituteNumber = req.user?.currentInstituteNumber
     await sequelize.query(`CREATE TABLE IF NOT EXISTS student_${instituteNumber}(
         id INT NOT NULL PRIMARY KEY AUTO_INCREMENT, 
         studentName VARCHAR(255) NOT NULL, 
@@ -109,13 +111,15 @@ const createStudentTable = async(req:IExtendedRequest,res:Response,next:NextFunc
 }
 
 const createCourseTable = async(req:IExtendedRequest,res:Response)=>{
-    const instituteNumber = req.instituteNumber 
+    const instituteNumber = req.user?.currentInstituteNumber 
     await sequelize.query(`CREATE TABLE IF NOT EXISTS course_${instituteNumber}(
         id INT NOT NULL PRIMARY KEY AUTO_INCREMENT,
         courseName VARCHAR(255) NOT NULL UNIQUE, 
         coursePrice VARCHAR(255) NOT NULL,
         courseDuration VARCHAR(100),
         courseLevel ENUM('beginner', 'intermediate', 'advance') NOT NULL,
+        courseDescription TEXT,
+        courseThumbnail VARCHAR(255),
         createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
         updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
         )`)
