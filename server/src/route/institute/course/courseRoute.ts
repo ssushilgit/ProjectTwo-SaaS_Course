@@ -4,8 +4,15 @@ import { createCourse, deleteCourse, getAllCourse, getSingleCourse } from "../..
 import asyncErrorHandler from "../../../services/asyncErrorHandler"
 const router: Router = express.Router()
 
-import {multer, storage} from './../../../middleware/multerMiddleware'
+// for local storage
+// import {multer, storage} from './../../../middleware/multerMiddleware'
+// const upload = multer({storage : storage})
+
+// for cloudinary
+import {cloudinary, storage} from './../../../services/cloudinaryConfig'
+import multer from 'multer'
 const upload = multer({storage : storage})
+
 
 // fieldname - frontend/postman bata chai k naam ma aairaxa file tesko naam
 router.route("/")
