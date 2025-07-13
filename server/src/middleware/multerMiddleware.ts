@@ -13,7 +13,6 @@ const storage = multer.diskStorage({
     // mathi ko location deko ma rakhey paxi , k name ma rakhne vanne 
     filename : function(req: Request, file: Express.Multer.File, cb: any){
         cb(null, Date.now() + "-" + file.originalname)
-
     }
 })
 
