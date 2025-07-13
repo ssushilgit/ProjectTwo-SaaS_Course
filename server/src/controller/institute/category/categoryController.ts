@@ -1,10 +1,11 @@
 import { NextFunction, Response } from "express";
 import { IExtendedRequest } from "../../../middleware/type";
 import sequelize from "../../../database/connection";
+import { QueryTypes } from "sequelize";
 
-const createCateory = async(req: IExtendedRequest, res: Response, next:NextFunction) =>{
+const createCategory = async(req: IExtendedRequest, res: Response) =>{
     const instituteNumber = req.user?.currentInstituteNumber
-    const {categoryName, categoryDescription} =req.body
+    const {categoryName, categoryDescription} = req.body
     if(!categoryName || !categoryDescription){
         return res.status(400).json({
             message : "Please provide categoryName and categoryDescription"
@@ -12,6 +13,7 @@ const createCateory = async(req: IExtendedRequest, res: Response, next:NextFunct
     }
 
     await sequelize.query(`INSERT INTO category_${instituteNumber}(categoryName, categoryDescription) VALUES(?,?)`, {
+        type: QueryTypes.INSERT,
         replacements : [categoryName, categoryDescription]
     })
     res.status(200).json({
@@ -21,7 +23,9 @@ const createCateory = async(req: IExtendedRequest, res: Response, next:NextFunct
 
 const getCategory = async(req:IExtendedRequest, res:Response) =>{
     const instituteNumber = req.user?.currentInstituteNumber
-    const categories = await sequelize.query(`SELECET * FROM category_${instituteNumber}`)
+    const categories = await sequelize.query(`SELECT * FROM category_${instituteNumber}`,{
+        type : QueryTypes.SELECT
+    })
     res.status(200).json({
         message : "Categories fetched successfully",
         data : categories
@@ -32,6 +36,7 @@ const deleteCategory = async(req: IExtendedRequest, res:Response) =>{
      const instituteNumber = req.user?.currentInstituteNumber
     const id  = req.params.id
     await sequelize.query(`DELETE FROM category_${instituteNumber} WHERE id = ?`,{
+        type : QueryTypes.DELETE,
         replacements : [id]
     })
     res.status(200).json({
@@ -39,4 +44,4 @@ const deleteCategory = async(req: IExtendedRequest, res:Response) =>{
     })
 }
 
-export {createCateory, getCategory, deleteCategory}
+export {createCategory, getCategory, deleteCategory}
