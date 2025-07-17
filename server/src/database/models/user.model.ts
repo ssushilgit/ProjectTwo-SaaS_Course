@@ -15,7 +15,7 @@ class User extends Model{
     })
     declare id : string
     
-    @Column({
+    @Column({ 
         type : DataType.STRING
     })
     declare username : string 

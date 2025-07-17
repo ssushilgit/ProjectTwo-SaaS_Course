@@ -1,4 +1,4 @@
-import { NextFunction, Response } from "express";
+import { Response } from "express";
 import { IExtendedRequest } from "../../../middleware/type";
 import sequelize from "../../../database/connection";
 import { QueryTypes } from "sequelize";
