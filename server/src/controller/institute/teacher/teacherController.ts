@@ -38,13 +38,14 @@ const createTeacher = async (req : IExtendedRequest, res : Response) =>{
     const mailInformation = {
         to : teacherEmail,
         subject : "Welcome to our SaaS MERN project",
-        text : `Welcome xa hai, Email : ${teacherEmail} Password : ${data.plainVersion}`
+        text : `Welcome xa hai, <b>Email</b> : ${teacherEmail} Password : ${data.plainVersion}, Your Institute Number : ${instituteNumber}`
     }
     await sendMail(mailInformation)
 
+
     res.status(200).json({
         message : "teacher created successfully"
-    }) 
+    })   
 }
 
 

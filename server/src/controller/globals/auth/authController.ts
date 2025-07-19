@@ -15,6 +15,7 @@ import { Request , Response} from "express"
 import User from "../../../database/models/user.model"
 import bcrypt from "bcrypt"
 import  jwt  from "jsonwebtoken"
+import generateJWTToken from "../../../services/generateJwtToken"
 // json data --> req.body --> username, email, pasword
 //files --> req.files --> image, files
 const registerUser = async (req : Request, res : Response) =>{
@@ -113,9 +114,8 @@ class AuthController{
             const isPasswordMatch = bcrypt.compareSync(password, data[0].password)
             if(isPasswordMatch){
                 // password match vaayo vane, login vayo, token generate vayo - token vaneko user ko identity ho jun ma chai user ko kehi unique kura lukeko hunxa - token generate vayesi frontend lai dinxa
-                const token = jwt.sign({id : data[0].id}, 'thisissecret', {
-                    expiresIn : "30d"
-                })
+                const token = generateJWTToken(data[0].id)
+                 
                 res.json({
                     token : token,
                     message : "logged in success"

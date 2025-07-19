@@ -17,12 +17,12 @@ const sendMail = async (mailInformation : IMailInformation) =>{
     })
 
     const mailFormatObject = {
-        from : "SaaS MERN - shresthasushil741@gmail.com",
-        to : "",
-        subject : "Welcome to teacher of SaaS MERN project", 
-        text : ""
+        from: "SaaS MERN <shresthasushil741@gmail.com>",
+        to : mailInformation.to,
+        subject : mailInformation.subject, 
+        html : mailInformation.text
     }
-
+ 
     try {
         await transporter.sendMail(mailFormatObject)
     } catch (error) {
