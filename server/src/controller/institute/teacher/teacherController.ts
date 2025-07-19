@@ -3,6 +3,7 @@ import sequelize from "../../../database/connection";
 import { IExtendedRequest } from "../../../middleware/type";
 import { Response } from "express";
 import generateRandomPassword from "../../../services/generateRandomPassword";
+import sendMail from "../../../services/sendMail";
 
 const createTeacher = async (req : IExtendedRequest, res : Response) =>{
     const instituteNumber = req.user?.currentInstituteNumber
@@ -23,18 +24,23 @@ const createTeacher = async (req : IExtendedRequest, res : Response) =>{
             replacements : [teacherName, teacherEmail, teacherPhoneNumber, teacherExpertise, salary, joinedDate, teacherPhoto, data.hashedVersion]
         })
 
-
-      const teacherData : {id:string}[]= await sequelize.query(`SELECT id FROM teacher_${instituteNumber} WHERE teacherEmail=?`,{
+    const teacherData : {id:string}[]= await sequelize.query(`SELECT id FROM teacher_${instituteNumber} WHERE teacherEmail=?`,{
         type : QueryTypes.SELECT, 
         replacements : [teacherEmail]
     })
-    console.log(teacherData,"teacher data")
+    // console.log(teacherData,"teacher data")
     await sequelize.query(`UPDATE course_${instituteNumber} SET teacherId=? WHERE id=?`,{
         type : QueryTypes.UPDATE,
         replacements : [teacherData[0].id,courseId]
     })
 
     // send mail function
+    const mailInformation = {
+        to : teacherEmail,
+        subject : "Welcome to our SaaS MERN project",
+        text : `Welcome xa hai, Email : ${teacherEmail} Password : ${data.plainVersion}`
+    }
+    await sendMail(mailInformation)
 
     res.status(200).json({
         message : "teacher created successfully"
