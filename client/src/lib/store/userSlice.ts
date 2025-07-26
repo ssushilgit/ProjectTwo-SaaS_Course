@@ -26,7 +26,7 @@ const userSlice = createSlice({
 export const { setName, setAddress } = userSlice.actions;
 export default userSlice.reducer;
 
-// @ts-ignore
-dispatch(setName("Sushil"))
-// @ts-ignore
-dispatch(setAddress("Damauli"))
+// // @ts-ignore
+// dispatch(setName("Sushil"))
+// // @ts-ignore
+// dispatch(setAddress("Damauli"))
