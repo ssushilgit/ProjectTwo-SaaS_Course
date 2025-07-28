@@ -1,10 +1,10 @@
+import { useAppDispatch } from "@/lib/store/hooks"
 import { setAddress, setName } from "@/lib/store/userSlice"
-import { useDispatch } from "react-redux"
 
 function contact(){
     let name  = "Sugam"
     let address = "Australia"
-    const dispatch = useDispatch()
+    const dispatch = useAppDispatch()
     dispatch(setName(name))
     dispatch(setAddress(address))
     return(
@@ -12,4 +12,4 @@ function contact(){
     )
 }
 
-export default contact
+export default contact 
