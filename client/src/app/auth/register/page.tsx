@@ -1,7 +1,13 @@
 import { ChangeEvent, FormEvent, useState } from "react"
 import { IRegisterUser } from "./registerTypes"
+import { registerUser } from "@/lib/store/auth/authSlice"
+import { useAppSelector } from "@/lib/store/hooks"
+import { Status } from "@/lib/types/type"
 
 function Register(){
+    const {institute} = useAppSelector((store)=>store.institute)
+    const {status} = useAppSelector((store)=>store.auth)
+
     // user le k k type garxa ta input field ma tyo track garerea store garne
     const [data, setData] = useState<IRegisterUser>({
         username : "",
@@ -12,11 +18,20 @@ function Register(){
     // handling type gareko 
     // event ko type changable hunxa so ChangeEvent
     const handleRegisterDataChange = (e:ChangeEvent<HTMLInputElement>) =>{
-
+        const {name, value} = e.target
+        setData({
+            ...data,
+            [name] : value
+        })
     }
 
     const handleRegisterSubmission = (e:FormEvent<HTMLFormElement>) =>{
-
+        // API call
+        registerUser(data)
+        if(status === Status.SUCCESS){
+            
+        }
+         
     }
 
     return(
