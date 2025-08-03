@@ -16,47 +16,49 @@ import User from "../../../database/models/user.model"
 import bcrypt from "bcrypt"
 import  jwt  from "jsonwebtoken"
 import generateJWTToken from "../../../services/generateJwtToken"
+
+
 // json data --> req.body --> username, email, pasword
 //files --> req.files --> image, files
-const registerUser = async (req : Request, res : Response) =>{
-    // const username = req.body.username
-    // const password = req.body.password
-    // const email = req.body.email
+// const registerUser = async (req : Request, res : Response) =>{
+//     // const username = req.body.username
+//     // const password = req.body.password
+//     // const email = req.body.email
 
-    const {username, password, email} = req.body
-    if(!username || !password || !email){
-        res.status(404).json({
-            success : false, 
-            message : "All fields are require !!!"
-        })
-        return
-    } 
-    // insert into users table
-    await User.create({
-        username : username,
-        password : password,
-        email : email
-        // role vayo vane bola - broken object authorization attack auxa
-    })
-    res.status(200).json({
-        success : true,
-        message : "User registered successfully"
-    })
-}
+//     const {username, password, email} = req.body
+//     if(!username || !password || !email){
+//         res.status(404).json({
+//             success : false, 
+//             message : "All fields are require !!!"
+//         })
+//         return
+//     } 
+//     // insert into users table
+//     await User.create({
+//         username : username,
+//         password : password,
+//         email : email
+//         // role vayo vane bola - broken object authorization attack auxa
+//     })
+//     res.status(200).json({
+//         success : true,
+//         message : "User registered successfully"
+//     })
+// }
 
 /* 
-login flow
+login flow  
 email/username, password (basic)
 email, password --> data accept --> validation
 first check whether email exist or not (verification) --> yes then check password now --> milyo vane token generation(jsonwebtoken) --> token generate vayena vane kolle login garyo tha hunna
 
 google login, fb, github login (oauth)
-email login
+email login 
 */
 
 
 class AuthController{
-    static async registerUser(req:  Request, res: Response){
+    static async registerUser(req:  Request, res: Response){ 
     if(req.body == undefined){
         // console.log(req.body)
         res.status(400).json({
@@ -100,12 +102,12 @@ class AuthController{
         // kunai pani table bata sabai data nikalyo vane array ko format ma auxa tara euta matra specific data nikalyo vane object ko form ma auxa
         const data = await User.findAll({
             where : {
-                email : email
+                email
             }
         })
-        if(data.length ==0){
+
+        if(data.length == 0){
             res.status(404).json({
-                success : false,
                 message : "Not registered!"
             })
         }else{
@@ -114,16 +116,19 @@ class AuthController{
             const isPasswordMatch = bcrypt.compareSync(password, data[0].password)
             if(isPasswordMatch){
                 // password match vaayo vane, login vayo, token generate vayo - token vaneko user ko identity ho jun ma chai user ko kehi unique kura lukeko hunxa - token generate vayesi frontend lai dinxa
-                const token = generateJWTToken(data[0].id)
+                const token = generateJWTToken({id: data[0].id})
                  
                 res.json({
-                    token : token,
+                    data : {
+                        token : token,
+                        username : data[0].username
+                    },
+                    // token : token,
                     message : "logged in success"
                 })
 
             } else { 
                 res.status(403).json({
-                    success : false, 
                     message : "Invalid email or pasword!"
                 })
             }

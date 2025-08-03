@@ -7,6 +7,7 @@ const generateJWTToken = (data : {
      const token = jwt.sign(data, 'thisissecret', {
         expiresIn : "30d"
     })
+    return token
 }
 
 export default generateJWTToken

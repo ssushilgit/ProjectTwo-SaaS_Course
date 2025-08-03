@@ -41,7 +41,6 @@ const teacherLogin = async (req: Request, res: Response) => {
             token
         })
     }
-
 }
 
 export {teacherLogin}
