@@ -1,3 +1,4 @@
+// institute-course-slice.ts
 import { Status } from "@/lib/types/type";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AppDispatch } from "../../store";
@@ -29,12 +30,22 @@ const instituteCourseSlice = createSlice({
         // to delete from frontend also
         setDeleteCourse(state, action : PayloadAction<string>){
             const index = state.courses.findIndex(course=>course.id = action.payload)
-            state.courses.splice(index,1)
+            if(index !== -1){
+                state.courses.splice(index,1)
+            }
+        },
+        setEditCourse(state, action : PayloadAction<any>){
+            const id = action.payload.id
+            const data = action.payload.data
+            const index = state.courses.findIndex(course=>course.id = id)
+            if(index !== -1){ // index vetena vane -1 auxa
+                state.courses[index] = data
+            }
         }
     }
 })
 
-export const{setStatus,setCourse, setDeleteCourse} = instituteCourseSlice.actions
+export const{setStatus,setCourse, setDeleteCourse, setEditCourse} = instituteCourseSlice.actions
 export default instituteCourseSlice.reducer 
 
 export function createInstituteCourse(data:any){
@@ -85,4 +96,18 @@ export function deleteInstituteCourse(id:string){
     }
 }
 
-
+export function editInstituteCourse(id:string, data:any){
+    return async function editInstituteCoursethunk(dispatch:AppDispatch){
+        try {
+            const response = await API.patch("institute/course" + id, data)
+            if(response.status === 200){
+                dispatch(setStatus(Status.SUCCESS))
+                dispatch(setEditCourse({data : data, id : id}))
+            } else {
+                dispatch(setStatus(Status.ERROR))
+            } 
+         } catch (error) {
+            dispatch(setStatus(Status.ERROR))
+         }
+    }
+}

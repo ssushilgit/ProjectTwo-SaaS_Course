@@ -2,7 +2,8 @@ import { Status } from "@/lib/types/type"
 
 export interface IAuth {
     username : string,
-    password : string
+    token : string
+    // password : string
 }
 export interface IRegisterData extends IAuth {
     email :string

@@ -1,10 +1,12 @@
+"use client"
 import { ChangeEvent, FormEvent, useState } from "react"
 import { IRegisterUser } from "./registerTypes"
 import { registerUser } from "@/lib/store/auth/authSlice"
-import { useAppSelector } from "@/lib/store/hooks"
+import { useAppDispatch, useAppSelector } from "@/lib/store/hooks"
 import { Status } from "@/lib/types/type"
 
 function Register(){
+    const dispatch = useAppDispatch()
     const {institute} = useAppSelector((store)=>store.institute)
     const {status} = useAppSelector((store)=>store.auth)
 
@@ -12,7 +14,8 @@ function Register(){
     const [data, setData] = useState<IRegisterUser>({
         username : "",
         email : "",
-        password : ""
+        password : "",
+        token: ""
     })
     
     // handling type gareko 
@@ -24,13 +27,15 @@ function Register(){
             [name] : value
         })
     }
+    console.log(data, "Register data")
 
     const handleRegisterSubmission = (e:FormEvent<HTMLFormElement>) =>{
-        // API call
-        registerUser(data)
-        if(status === Status.SUCCESS){
+        // API call 
+        e.preventDefault()
+        dispatch(registerUser(data))
+        // if(status === Status.SUCCESS){
             
-        }
+        // }
          
     }
 

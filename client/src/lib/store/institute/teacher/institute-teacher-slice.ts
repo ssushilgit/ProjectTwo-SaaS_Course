@@ -1,3 +1,4 @@
+// institute-course-slice.ts
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IInstituteTeacher, IInstituteTeacherInitialData, teacherExpertise } from "./institute-teacher-type";
 import { Status } from "@/lib/types/type";

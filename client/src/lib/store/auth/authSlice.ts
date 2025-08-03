@@ -7,12 +7,13 @@ import { ILoginData } from "@/app/auth/login/loginTypes";
 
 const initialState : IAuthInitialData = {
     user : {
-        username : "",
-        password : ""
+        username : "", // login garda ko data replace hunxa username and token ma
+        // password : ""
+        token : ""
     },
     status : Status.LOADING
 }
-
+ 
 const authSlice = createSlice({
     name : "authSlice",
     initialState : initialState,
@@ -34,7 +35,7 @@ export function registerUser(data : IRegisterData){
     return async function registerUserThunk(dispatch:AppDispatch){
         try {
             const response = await API.post("auth/register",data)
-            if(response.status === 201){
+            if(response.status === 200){
                 dispatch(setStatus(Status.SUCCESS))
             } else {
                 dispatch(setStatus(Status.ERROR))
@@ -44,14 +45,16 @@ export function registerUser(data : IRegisterData){
             dispatch(setStatus(Status.ERROR))
         }
     }
-}
+}  
 
 export function loginUser(data : ILoginData){
     return async function loginUserThunk(dispatch: AppDispatch){
         try {
             const response = await API.post("auth/login",data)
             if(response.status === 200){
-                dispatch(setStatus(Status.SUCCESS))
+                dispatch(setUser(response.data.data))
+                localStorage.setItem("token",  response.data.data.token)
+                dispatch(setStatus(Status.SUCCESS)) 
             }
             else {
                 dispatch(setStatus(Status.ERROR))
