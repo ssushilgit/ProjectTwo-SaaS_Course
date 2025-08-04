@@ -53,19 +53,19 @@ function Register(){
                         <div>
                             <label htmlFor="new-password" className="block text-sm font-medium text-gray-700">Username</label>
                             <div className="mt-1">
-                                <input onChange={handleRegisterDataChange} name="username" type="username" required className="px-2 py-3 mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-sky-500 sm:text-sm" />
+                                <input onChange={handleRegisterDataChange} name="username" type="username" required className="px-2 py-3 mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-sky-500 sm:text-sm text-gray-900" />
                             </div>
                         </div>
                         <div>
                             <label htmlFor="password" className="block text-sm font-medium text-gray-700">Email</label>
                             <div className="mt-1">
-                                <input onChange={handleRegisterDataChange} name="email" type="email-address" autoComplete="email-address" required className="px-2 py-3 mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-sky-500 sm:text-sm" />
+                                <input onChange={handleRegisterDataChange} name="email" type="email-address" autoComplete="email-address" required className="px-2 py-3 mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-sky-500 sm:text-sm text-gray-900" />
                             </div>
                         </div>
                         <div>
                             <label htmlFor="password" className="block text-sm font-medium text-gray-700">Password</label>
                             <div className="mt-1">
-                                <input onChange={handleRegisterDataChange} name="password" type="password" autoComplete="email-address" required className="px-2 py-3 mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-sky-500 sm:text-sm" />
+                                <input onChange={handleRegisterDataChange} name="password" type="password" autoComplete="email-address" required className="px-2 py-3 mt-1 block w-full rounded-md border border-gray-300 shadow-sm focus:border-sky-500 focus:outline-none focus:ring-sky-500 sm:text-sm text-gray-900" />
                             </div>
                         </div>
                         <div>
