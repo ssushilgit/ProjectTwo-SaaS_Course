@@ -1,4 +1,33 @@
+"use client"
+import { useAppDispatch } from "@/lib/store/hooks"
+import { createInstitute } from "@/lib/store/institute/instituteSlice"
+import { IInstitute } from "@/lib/store/institute/instituteSlice.type"
+import { ChangeEvent, FormEvent, useState } from "react"
+
 function becomeInstitute(){
+    const dispatch = useAppDispatch()
+    const [instituteData, setInstituteData] = useState<IInstitute>({
+        instituteName : "",
+        instituteEmail : "",
+        instituteAddress : "",
+        institutePhoneNumber : "",
+        institutePanNumber : "",
+        instituteVatNumber : ""
+    })
+
+    const handleChange = (e : ChangeEvent<HTMLInputElement> ) =>{
+        const {name, value} = e.target
+        setInstituteData({
+            ...instituteData,
+            [name] : value
+        })
+    }
+
+    const handleInstituteCreationSubmission = (e : FormEvent<HTMLFormElement>) =>{
+        e.preventDefault()
+        dispatch(createInstitute(instituteData))
+    }
+
     return(
         <div className="flex items-center justify-center h-screen">
         <div className="w-full max-w-md bg-white p-6 rounded-lg shadow-lg">
@@ -19,21 +48,24 @@ function becomeInstitute(){
             </span>
             </div>
             {/* Form */}
-            <form className="space-y-4">
+            <form onSubmit={handleInstituteCreationSubmission} className="space-y-4">
             <div>
-                <input type="text" placeholder="Institute Name" className="w-full px-4 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring focus:ring-blue-100" />
+                <input onChange={handleChange} type="text" name="instituteName" placeholder="Institute Name" className="w-full px-4 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring focus:ring-blue-100" />
             </div>
             <div>
-                <input type="text" placeholder="Phone Number" className="w-full px-4 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring focus:ring-blue-100" />
+                <input onChange={handleChange} type="email" name="instituteEmail" placeholder="Email" className="w-full px-4 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring focus:ring-blue-100" />
             </div>
             <div>
-                <input type="email" placeholder="Email" className="w-full px-4 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring focus:ring-blue-100" />
+                <input onChange={handleChange} type="text" name="instituteAddress" placeholder="Address" className="w-full px-4 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring focus:ring-blue-100" />
             </div>
             <div>
-                <input type="text" placeholder="Address" className="w-full px-4 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring focus:ring-blue-100" />
+                <input onChange={handleChange} type="text" name="institutePhoneNumber" placeholder="Phone Number" className="w-full px-4 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring focus:ring-blue-100" />
             </div>
             <div>
-                <input type="text" placeholder="Pan No / Vat No" className="w-full px-4 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring focus:ring-blue-100" />
+                <input onChange={handleChange} type="text" name="institutePanNumber" placeholder="Pan No " className="w-full px-4 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring focus:ring-blue-100" />
+            </div>
+            <div>
+                <input onChange={handleChange} type="text"  name="instituteVatNumber" placeholder="Vat No" className="w-full px-4 py-2 border border-gray-300 rounded-lg text-gray-700 focus:outline-none focus:ring focus:ring-blue-100" />
             </div>
             
             

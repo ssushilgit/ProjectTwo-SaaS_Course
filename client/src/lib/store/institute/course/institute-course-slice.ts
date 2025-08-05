@@ -2,7 +2,7 @@
 import { Status } from "@/lib/types/type";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AppDispatch } from "../../store";
-import API from "@/lib/http";
+import {API} from "@/lib/http";
 
 const initialState = {
     status :"",
