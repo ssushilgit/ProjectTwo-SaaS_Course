@@ -3,7 +3,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IInstituteTeacher, IInstituteTeacherInitialData, teacherExpertise } from "./institute-teacher-type";
 import { Status } from "@/lib/types/type";
 import { AppDispatch } from "../../store";
-import API from "@/lib/http";
+import {API} from "@/lib/http";
 
 const initialState : IInstituteTeacherInitialData = {
     teacher : {
