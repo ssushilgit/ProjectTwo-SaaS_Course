@@ -5,9 +5,8 @@ function InstituteDashboardLayout({children} : Readonly<{children : React.ReactN
         <>
         <Dashboard>
             {children}
-        </Dashboard> 
+        </Dashboard>
         </>
     )
 }
-
-export default InstituteDashboardLayout 
+export default InstituteDashboardLayout
