@@ -1,8 +1,32 @@
+import { useAppDispatch } from "@/lib/store/hooks"
+import { addCategories } from "@/lib/store/institute/category/institute-category-slice"
+import { IInstituteCategoryAddData } from "@/lib/store/institute/category/institute-category-type"
+import { ChangeEvent, useState } from "react"
+
 interface ICloseModal{
     closeModal : ()=> void
 }
 
 const Modal:React.FC<ICloseModal>=({closeModal})=>{
+    const dispatch = useAppDispatch()
+    const [categoryData, setCategoryData] = useState<IInstituteCategoryAddData>({
+        categoryName : "",
+        categoryDescription : ""
+    })
+
+    const handleCategoryChange = (e :ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>{
+        const {name, value} = e.target
+        setCategoryData({
+            ...categoryData,
+            [name] : value
+        })
+    }
+
+    const handleCategorySubmission = (e:ChangeEvent<HTMLFormElement>) =>{
+        e.preventDefault()
+        dispatch(addCategories(categoryData))
+    }
+
     return(
         <div id="modal" className="fixed inset-0 z-50 flex items-center justify-center">
         <div className="fixed inset-0 bg-black/50" />
@@ -15,15 +39,17 @@ const Modal:React.FC<ICloseModal>=({closeModal})=>{
                 </svg>
             </button>
             </div>
-            <div className="space-y-4">
+
+            <form onSubmit={handleCategorySubmission} className="space-y-4">
             <div>
                 <label htmlFor="website_url" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Category Name</label>
-                <input type="text" id="website_url" className="w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500" placeholder="Frontend " required />
+                <input onChange={handleCategoryChange} name="categoryName" type="text" id="website_url" className="w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500" placeholder="Frontend " required />
             </div>
             <div>
                 <label htmlFor="website_url" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Category Description</label>
-                <textarea id="website_url" className="w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500" placeholder="HTML, CSS, JS, React etc." required />
+                <textarea onChange={handleCategoryChange} name ="categoryDescription" id="website_url" className="w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500" placeholder="HTML, CSS, JS, React etc." required />
             </div>
+
             <div className="flex justify-end gap-3">
                 <button onClick={closeModal} id="cancelButton" className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-600 dark:hover:bg-gray-600">
                 Cancel
@@ -35,7 +61,7 @@ const Modal:React.FC<ICloseModal>=({closeModal})=>{
                 </svg>
                 </button>
             </div>
-            </div>
+            </form>
         </div>
         </div>
 
