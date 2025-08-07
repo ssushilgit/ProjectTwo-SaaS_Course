@@ -1,6 +1,8 @@
-import { useAppDispatch } from "@/lib/store/hooks"
+import { useAppDispatch, useAppSelector } from "@/lib/store/hooks"
 import { addCategories } from "@/lib/store/institute/category/institute-category-slice"
 import { IInstituteCategoryAddData } from "@/lib/store/institute/category/institute-category-type"
+import store from "@/lib/store/store"
+import { Status } from "@/lib/types/type"
 import { ChangeEvent, useState } from "react"
 
 interface ICloseModal{
@@ -9,6 +11,7 @@ interface ICloseModal{
 
 const Modal:React.FC<ICloseModal>=({closeModal})=>{
     const dispatch = useAppDispatch()
+    const {status} = useAppSelector((store)=>store.category)
     const [categoryData, setCategoryData] = useState<IInstituteCategoryAddData>({
         categoryName : "",
         categoryDescription : ""
@@ -22,9 +25,12 @@ const Modal:React.FC<ICloseModal>=({closeModal})=>{
         })
     }
 
-    const handleCategorySubmission = (e:ChangeEvent<HTMLFormElement>) =>{
+    const handleCategorySubmission = async (e:ChangeEvent<HTMLFormElement>) =>{
         e.preventDefault()
-        dispatch(addCategories(categoryData))
+        await dispatch(addCategories(categoryData))
+        if(status == Status.SUCCESS){
+            closeModal()
+        }
     }
 
     return(
