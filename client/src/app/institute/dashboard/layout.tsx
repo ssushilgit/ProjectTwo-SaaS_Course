@@ -1,3 +1,6 @@
+
+// layout.tsx
+
 import Dashboard from "@/lib/components/dashboard/Dashboard"
 
 function InstituteDashboardLayout({children} : Readonly<{children : React.ReactNode}>){
@@ -9,4 +12,4 @@ function InstituteDashboardLayout({children} : Readonly<{children : React.ReactN
         </>
     )
 }
-export default InstituteDashboardLayout
+export default InstituteDashboardLayout 

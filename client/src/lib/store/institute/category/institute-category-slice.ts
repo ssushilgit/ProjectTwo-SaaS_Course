@@ -18,11 +18,18 @@ const instituteCategorySlice = createSlice({
         },
         setCategory(state : IInstituteCategoryInitialData , action : PayloadAction<IInstituteCategory[]>){
             state.category = action.payload
-        }
+        },
+        setCategoryDelete(state : IInstituteCategoryInitialData, action : PayloadAction<string>){
+            const categoryId = action.payload
+            const index = state.category.findIndex((category)=>category.id == categoryId)
+            if(index !== -1){
+                state.category.splice(index,1)
+                }
+            }
     }
 })
 
-export const {setStatus, setCategory} = instituteCategorySlice.actions
+export const {setStatus, setCategory, setCategoryDelete} = instituteCategorySlice.actions
 export default instituteCategorySlice.reducer
 
 export function fetchCategories(){
@@ -64,6 +71,7 @@ export function deleteCategories(id:string){
             const response = await APIWITHTOKEN.delete("institute/category/" + id)
             if(response.status ===200){
                 dispatch(setStatus(Status.SUCCESS))
+                dispatch(setCategoryDelete(id))
             } else {
                 dispatch(setStatus(Status.ERROR))
             }

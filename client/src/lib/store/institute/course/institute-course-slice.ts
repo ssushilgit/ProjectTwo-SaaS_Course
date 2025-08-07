@@ -26,7 +26,7 @@ const instituteCourseSlice = createSlice({
         },
         setCourse(state , action : PayloadAction<any>){
             state.courses = action.payload
-        },
+        }, 
         // to delete from frontend also
         setDeleteCourse(state, action : PayloadAction<string>){
             const index = state.courses.findIndex(course=>course.id = action.payload)
