@@ -1,8 +1,9 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { IInstituteCategory, IInstituteCategoryInitialData } from "./institute-category-type";
+import { IInstituteCategory, IInstituteCategoryAddData, IInstituteCategoryInitialData } from "./institute-category-type";
 import { Status } from "@/lib/types/type";
 import { AppDispatch } from "../../store";
 import { APIWITHTOKEN } from "@/lib/http";
+import { act } from "react";
 
 const initialState : IInstituteCategoryInitialData = {
     category : [],
@@ -16,8 +17,11 @@ const instituteCategorySlice = createSlice({
         setStatus(state : IInstituteCategoryInitialData, action : PayloadAction<Status>  ){
             state.status = action.payload
         },
-        setCategory(state : IInstituteCategoryInitialData , action : PayloadAction<IInstituteCategory[]>){
-            state.category = action.payload
+        setFetchCategory(state : IInstituteCategoryInitialData , action : PayloadAction<IInstituteCategory[]>){
+            state.category =action.payload
+        },
+        setAddCategory(state : IInstituteCategoryInitialData, action : PayloadAction<IInstituteCategory>){
+            state.category.push(action.payload)
         },
         setCategoryDelete(state : IInstituteCategoryInitialData, action : PayloadAction<string>){
             const categoryId = action.payload
@@ -29,7 +33,7 @@ const instituteCategorySlice = createSlice({
     }
 })
 
-export const {setStatus, setCategory, setCategoryDelete} = instituteCategorySlice.actions
+export const {setStatus, setFetchCategory, setAddCategory, setCategoryDelete} = instituteCategorySlice.actions
 export default instituteCategorySlice.reducer
 
 export function fetchCategories(){
@@ -38,7 +42,7 @@ export function fetchCategories(){
             const response = await APIWITHTOKEN.get("institute/category")
             if(response.status ===200){
                 dispatch(setStatus(Status.SUCCESS))
-                response.data.data.length > 0 && dispatch(setCategory(response.data.data))
+                response.data.data.length > 0 && dispatch(setFetchCategory(response.data.data))
             } else {
                 dispatch(setStatus(Status.ERROR))
             }
@@ -49,12 +53,13 @@ export function fetchCategories(){
     }
 }
 
-export function addCategories(data: IInstituteCategory){
+export function addCategories(data: IInstituteCategoryAddData){
     return async function addCategoriesThunk(dispatch : AppDispatch){
         try {
             const response = await APIWITHTOKEN.post("institute/category", data)
             if(response.status ===200){
                 dispatch(setStatus(Status.SUCCESS))
+                response.data.data && dispatch(setAddCategory(response.data.data))
             } else {
                 dispatch(setStatus(Status.ERROR))
             }

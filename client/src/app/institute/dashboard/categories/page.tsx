@@ -58,8 +58,8 @@ function InstituteCategories(){
                     <tr key={category.id} className="bg-white transition-all duration-500 hover:bg-gray-50">
                     <td className="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900 "> {category?.id}</td>
                     <td className="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900"> {category?.categoryName} </td>
-                    <td className="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900"> {category?.categoryDescription}</td>
-                    <td className="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900"> {new Date(category?.createdAt.toString()).toLocaleDateString()}</td>
+                    <td className="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900"> {category?.categoryDescription?.substring(0,40)}</td>
+                    <td className="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900"> {new Date(category?.createdAt?.toString()).toLocaleDateString()}</td>
                     <td className=" p-5 ">
                         <div className="flex items-center gap-1">
                         <button className="p-2  rounded-full  group transition-all duration-500  flex item-center">

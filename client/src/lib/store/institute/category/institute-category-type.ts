@@ -1,9 +1,12 @@
 import { Status } from "@/lib/types/type"
 
-export interface IInstituteCategory {
-    id : string,
+export interface IInstituteCategoryAddData {
     categoryName : string, 
     categoryDescription : string,
+}
+
+export interface IInstituteCategory extends IInstituteCategoryAddData{
+    id : string,
     createdAt : string
 }
 
