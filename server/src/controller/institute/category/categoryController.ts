@@ -16,8 +16,20 @@ const createCategory = async(req: IExtendedRequest, res: Response) =>{
         type: QueryTypes.INSERT,
         replacements : [categoryName, categoryDescription]
     })
+
+    const [CategoryData] : {id: string,createdAt : Date}[] = await sequelize.query(`SELECT id, createdAt from category_${instituteNumber} WHERE categoryName = ?`,{
+        replacements : [categoryName],
+        type : QueryTypes.SELECT
+    })
+
     res.status(200).json({
-        message : "Category added successfully"
+        message : "Category added successfully",
+        data: {
+            categoryName,
+            categoryDescription,
+            id :CategoryData.id,
+            CreatedAt : CategoryData.createdAt
+        }
     })
 }
 
@@ -33,7 +45,7 @@ const getCategory = async(req:IExtendedRequest, res:Response) =>{
 }
 
 const deleteCategory = async(req: IExtendedRequest, res:Response) =>{
-     const instituteNumber = req.user?.currentInstituteNumber
+    const instituteNumber = req.user?.currentInstituteNumber
     const id  = req.params.id
     await sequelize.query(`DELETE FROM category_${instituteNumber} WHERE id = ?`,{
         type : QueryTypes.DELETE,
