@@ -7,11 +7,27 @@ import { useEffect, useState } from "react"
 
 function InstituteCategories(){
     const {category:categories} = useAppSelector((store) => store.category)
+    const [searchedText, setSearchedText] = useState<string>("")
     const dispatch = useAppDispatch()
 
     const [isModalOpen, setIsModalOpen] = useState<boolean>(false)
     const openModal =()=> setIsModalOpen(true)
     const closeModal =()=>setIsModalOpen(false)
+
+    let filteredData = categories.filter((category)=>category.categoryName.includes(searchedText) || category.id.includes(searchedText))
+    console.log(filteredData)
+
+    // let cat = [
+    //     {
+    //         name : "Sushil",
+    //         age : 24
+    //     },
+    //     {
+    //         name :"Sugam",
+    //         age : 22
+    //     }
+    // ]
+    // let data = cat.filter((dog)=>dog.name === "Sushil")
 
     useEffect(()=>{
         dispatch(fetchCategories())
@@ -29,13 +45,9 @@ function InstituteCategories(){
                 <div className="flex justify-between">
                     <div className="relative  text-gray-500 focus-within:text-gray-900 mb-4">
                         <div className="absolute inset-y-0 left-1 flex items-center pl-3 pointer-events-none ">
-                            <svg className="w-5 h-5" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path d="M17.5 17.5L15.4167 15.4167M15.8333 9.16667C15.8333 5.48477 12.8486 2.5 9.16667 2.5C5.48477 2.5 2.5 5.48477 2.5 9.16667C2.5 12.8486 5.48477 15.8333 9.16667 15.8333C11.0005 15.8333 12.6614 15.0929 13.8667 13.8947C15.0814 12.6872 15.8333 11.0147 15.8333 9.16667Z" stroke="#9CA3AF" strokeWidth="1.6" strokeLinecap="round" />
-                                <path d="M17.5 17.5L15.4167 15.4167M15.8333 9.16667C15.8333 5.48477 12.8486 2.5 9.16667 2.5C5.48477 2.5 2.5 5.48477 2.5 9.16667C2.5 12.8486 5.48477 15.8333 9.16667 15.8333C11.0005 15.8333 12.6614 15.0929 13.8667 13.8947C15.0814 12.6872 15.8333 11.0147 15.8333 9.16667Z" stroke="black" strokeOpacity="0.2" strokeWidth="1.6" strokeLinecap="round" />
-                                <path d="M17.5 17.5L15.4167 15.4167M15.8333 9.16667C15.8333 5.48477 12.8486 2.5 9.16667 2.5C5.48477 2.5 2.5 5.48477 2.5 9.16667C2.5 12.8486 5.48477 15.8333 9.16667 15.8333C11.0005 15.8333 12.6614 15.0929 13.8667 13.8947C15.0814 12.6872 15.8333 11.0147 15.8333 9.16667Z" stroke="black" strokeOpacity="0.2" strokeWidth="1.6" strokeLinecap="round" />
-                            </svg>
+                           
                         </div>
-                        <input  type="text" id="default-search" className="block w-80 h-11 pr-5 pl-12 py-2.5 text-base font-normal shadow-xs text-gray-900 bg-transparent border border-gray-300 rounded-full placeholder-gray-400 focus:outline-none" placeholder="Search for category" />
+                        <input onChange={(e)=> setSearchedText(e.target.value)} type="text" id="default-search" className="block w-80 h-11 pr-5 pl-12 py-2.5 text-base font-normal shadow-xs text-gray-900 bg-transparent border border-gray-300 rounded-full placeholder-gray-400 focus:outline-none" placeholder="Search for category" />
                     </div>
                     <button onClick={openModal} className="h-[40px] rounded-md bg-gradient-to-br from-green-600 to-emerald-400 px-3 py-1 font-dm text-sm font-medium text-white shadow-md shadow-green-400/50 transition-transform duration-200 ease-in-out hover:scale-[1.03]"> + Category</button>
                 </div>
@@ -53,7 +65,8 @@ function InstituteCategories(){
                     </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-300 ">
-                {categories.length > 0 && categories.map((category: IInstituteCategory)=>{
+                {/* {categories.length > 0 && categories.map((category: IInstituteCategory)=>{ */}
+                {filteredData.length > 0 && filteredData.map((category: IInstituteCategory)=>{
                     return(
                     <tr key={category.id} className="bg-white transition-all duration-500 hover:bg-gray-50">
                     <td className="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900 "> {category?.id}</td>
@@ -82,9 +95,6 @@ function InstituteCategories(){
                     </tr>
                     )
                 }) }
-
-                    
-                  
                 </tbody>
                 </table>
             </div>
