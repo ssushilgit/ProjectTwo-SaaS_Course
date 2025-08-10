@@ -2,19 +2,12 @@
 import { Status } from "@/lib/types/type";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AppDispatch } from "../../store";
-import {API} from "@/lib/http";
+import {API, APIWITHTOKEN} from "@/lib/http";
+import { IInstituteCourseInitialData } from "./institute-course-type";
 
-const initialState = {
-    status :"",
-    courses : [{
-        courseName : "reactjs",
-        coursePrice : "999",
-        id : "1"
-    } , {
-        courseName : "nodejs",
-        coursePrice : "999",
-        id : "2"
-    }]
+const initialState : IInstituteCourseInitialData = {
+    status : Status.LOADING,
+    courses : []
 }
 
 const instituteCourseSlice = createSlice({
@@ -45,13 +38,13 @@ const instituteCourseSlice = createSlice({
     }
 })
 
-export const{setStatus,setCourse, setDeleteCourse, setEditCourse} = instituteCourseSlice.actions
+export const{setStatus,setCourse, setDeleteCourse,setEditCourse} = instituteCourseSlice.actions
 export default instituteCourseSlice.reducer 
 
 export function createInstituteCourse(data:any){
     return async function createInstituteCourseThunk(dispatch:AppDispatch){
         try {
-            const response = await API.post("institute/course", data)
+            const response = await APIWITHTOKEN.post("institute/course", data)
             if(response.status === 200){
                 dispatch(setStatus(Status.SUCCESS))
             } else {
@@ -67,7 +60,7 @@ export function createInstituteCourse(data:any){
 export function fetchInstituteCourse(){
     return async function fetchInstituteCoursethunk(dispatch:AppDispatch){
         try {
-            const response = await API.get("institute/course")
+            const response = await APIWITHTOKEN.get("institute/course")
             if(response.status === 200){
                 dispatch(setStatus(Status.SUCCESS))
                 response.data.data > 0 && dispatch(setCourse(response.data.data))
@@ -83,7 +76,7 @@ export function fetchInstituteCourse(){
 export function deleteInstituteCourse(id:string){
     return async function deleteInstituteCoursethunk(dispatch:AppDispatch){
         try {
-            const response = await API.delete("institute/course" + id)
+            const response = await APIWITHTOKEN.delete("institute/course" + id)
             if(response.status === 200){
                 dispatch(setStatus(Status.SUCCESS))
                 dispatch(setDeleteCourse(id))

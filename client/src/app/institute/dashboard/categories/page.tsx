@@ -15,20 +15,7 @@ function InstituteCategories(){
     const closeModal =()=>setIsModalOpen(false)
 
     let filteredData = categories.filter((category)=>category.categoryName.includes(searchedText) || category.id.includes(searchedText))
-    console.log(filteredData)
-
-    // let cat = [
-    //     {
-    //         name : "Sushil",
-    //         age : 24
-    //     },
-    //     {
-    //         name :"Sugam",
-    //         age : 22
-    //     }
-    // ]
-    // let data = cat.filter((dog)=>dog.name === "Sushil")
-
+    
     useEffect(()=>{
         dispatch(fetchCategories())
     },[])
@@ -49,7 +36,7 @@ function InstituteCategories(){
                         </div>
                         <input onChange={(e)=> setSearchedText(e.target.value)} type="text" id="default-search" className="block w-80 h-11 pr-5 pl-12 py-2.5 text-base font-normal shadow-xs text-gray-900 bg-transparent border border-gray-300 rounded-full placeholder-gray-400 focus:outline-none" placeholder="Search for category" />
                     </div>
-                    <button onClick={openModal} className="h-[40px] rounded-md bg-gradient-to-br from-green-600 to-emerald-400 px-3 py-1 font-dm text-sm font-medium text-white shadow-md shadow-green-400/50 transition-transform duration-200 ease-in-out hover:scale-[1.03]"> + Category</button>
+                    <button onClick={openModal} className="h-[40px] rounded-md bg-gradient-to-br from-green-600 to-emerald-400 px-3 py-1 font-dm text-sm font-medium text-white shadow-md shadow-green-400/50 transition-transform duration-200 ease-in-out hover:scale-[1.03]">  Category Category</button>
                 </div>
             </div>
 

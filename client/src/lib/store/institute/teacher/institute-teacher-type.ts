@@ -27,6 +27,6 @@ interface IInstituteTeacherWithCourse extends IInstituteTeacher{
 }
 
 export interface IInstituteTeacherInitialData {
-    teacher : IInstituteTeacherWithCourse,
+    teachers : IInstituteTeacherWithCourse[],
     status : Status
 }
