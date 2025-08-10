@@ -13,3 +13,11 @@ function InstituteDashboardLayout({children} : Readonly<{children : React.ReactN
     )
 }
 export default InstituteDashboardLayout 
+
+{/* courses.length > 0 && courses.map((course)=>{
+                            return(
+                                <select name = "courseId" id="">
+                                    <option value={course.id}> {course.courseName} </option>
+                                </select>
+                            )
+                        }) */}

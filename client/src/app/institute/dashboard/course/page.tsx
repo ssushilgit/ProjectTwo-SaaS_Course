@@ -21,9 +21,9 @@ function InstituteCourse(){
                         <div className="absolute inset-y-0 left-1 flex items-center pl-3 pointer-events-none ">
                            
                         </div>
-                        <input  type="text" id="default-search" className="block w-80 h-11 pr-5 pl-12 py-2.5 text-base font-normal shadow-xs text-gray-900 bg-transparent border border-gray-300 rounded-full placeholder-gray-400 focus:outline-none" placeholder="Search for teacher" />
+                        <input  type="text" id="default-search" className="block w-80 h-11 pr-5 pl-12 py-2.5 text-base font-normal shadow-xs text-gray-900 bg-transparent border border-gray-300 rounded-full placeholder-gray-400 focus:outline-none" placeholder="Search for course" />
                     </div>
-                    <button onClick={openModal} className="h-[40px] rounded-md bg-gradient-to-br from-green-600 to-emerald-400 px-3 py-1 font-dm text-sm font-medium text-white shadow-md shadow-green-400/50 transition-transform duration-200 ease-in-out hover:scale-[1.03]"> Create Teacher</button>
+                    <button onClick={openModal} className="h-[40px] rounded-md bg-gradient-to-br from-green-600 to-emerald-400 px-3 py-1 font-dm text-sm font-medium text-white shadow-md shadow-green-400/50 transition-transform duration-200 ease-in-out hover:scale-[1.03]"> Create Course</button>
                 </div>
             </div>
 
@@ -33,11 +33,13 @@ function InstituteCourse(){
                     <tr className="bg-gray-50">
                     <th scope="col" className="p-5 text-left text-sm leading-6 font-semibold text-gray-900 capitalize rounded-t-xl"> ID </th>
                     <th scope="col" className="p-5 text-left text-sm leading-6 font-semibold text-gray-900 capitalize"> Name </th>
-                    <th scope="col" className="p-5 text-left text-sm leading-6 font-semibold text-gray-900 capitalize"> Email </th>
-                    <th scope="col" className="p-5 text-left text-sm leading-6 font-semibold text-gray-900 capitalize"> Phone Number </th>
-                    <th scope="col" className="p-5 text-left text-sm leading-6 font-semibold text-gray-900 capitalize"> Expertise </th>
-                    <th scope="col" className="p-5 text-left text-sm leading-6 font-semibold text-gray-900 capitalize"> Joined Date </th>
-                    <th scope="col" className="p-5 text-left text-sm leading-6 font-semibold text-gray-900 capitalize"> Salary </th>
+                    <th scope="col" className="p-5 text-left text-sm leading-6 font-semibold text-gray-900 capitalize"> Price </th>
+                    <th scope="col" className="p-5 text-left text-sm leading-6 font-semibold text-gray-900 capitalize"> Duration </th>
+                    <th scope="col" className="p-5 text-left text-sm leading-6 font-semibold text-gray-900 capitalize"> Level </th>
+                    <th scope="col" className="p-5 text-left text-sm leading-6 font-semibold text-gray-900 capitalize"> Description </th>
+                    <th scope="col" className="p-5 text-left text-sm leading-6 font-semibold text-gray-900 capitalize"> Thumbnail </th>
+                    <th scope="col" className="p-5 text-left text-sm leading-6 font-semibold text-gray-900 capitalize"> Category ID </th>
+                    <th scope="col" className="p-5 text-left text-sm leading-6 font-semibold text-gray-900 capitalize"> Teacher ID </th>
                     <th scope="col" className="p-5 text-left text-sm leading-6 font-semibold text-gray-900 capitalize rounded-t-xl"> Actions </th>
                     </tr>
                 </thead>
@@ -46,6 +48,8 @@ function InstituteCourse(){
                     <tr className="bg-white transition-all duration-500 hover:bg-gray-50">
                     <td className="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900 "> A</td>
                     <td className="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900"> A </td>
+                    <td className="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900"> A</td>
+                    <td className="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900"> A</td>
                     <td className="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900"> A</td>
                     <td className="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900"> A</td>
                     <td className="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900"> A</td>

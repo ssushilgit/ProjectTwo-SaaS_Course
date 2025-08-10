@@ -1,8 +1,9 @@
 import { useAppDispatch, useAppSelector } from "@/lib/store/hooks"
-import { addCategories } from "@/lib/store/institute/category/institute-category-slice"
+import { addCategories, fetchCategories } from "@/lib/store/institute/category/institute-category-slice"
 import { IInstituteCategoryAddData } from "@/lib/store/institute/category/institute-category-type"
+import { fetchInstituteCourse } from "@/lib/store/institute/course/institute-course-slice"
 import { Status } from "@/lib/types/type"
-import { ChangeEvent, useState } from "react"
+import { ChangeEvent, useEffect, useState } from "react"
 
 interface ICloseModal{
     closeModal : ()=> void
@@ -11,7 +12,8 @@ interface ICloseModal{
 const courseLevel = ["Basic", "Intermediate", "Advance"]
 
 const CourseModal:React.FC<ICloseModal>=({closeModal})=>{
-    const {courses} = useAppSelector((store)=>store.course)
+    const {category} = useAppSelector((store)=>store.category)
+    console.log(category)
     const dispatch = useAppDispatch()
     const {status} = useAppSelector((store)=>store.category)
     const [courseData, setCourseData] = useState<IInstituteCategoryAddData>({
@@ -34,6 +36,13 @@ const CourseModal:React.FC<ICloseModal>=({closeModal})=>{
             closeModal()
         }
     }
+
+    useEffect(()=>{
+        dispatch(fetchInstituteCourse())
+        if(category.length === 0){
+            dispatch(fetchCategories())
+        }
+    })
 
   
     return(
@@ -73,15 +82,23 @@ const CourseModal:React.FC<ICloseModal>=({closeModal})=>{
             <div className="flex justify-between">
                   <div>
                     <label htmlFor="website_url" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Course Category</label>
-                    <input onChange={handleCategoryChange} name="courseCategory" type="text" id="website_url" className="w-55 mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500" placeholder="" required />
+                      <select name = "courseCategory" id="">
+                    {
+                        category.map((cat)=>{
+                            return(
+                                    <option key={cat.id} className="bg-amber-950" value={cat.id}> {cat.categoryName} </option>
+                                )
+                            }) 
+                    }
+                    </select>
                 </div>
                 <div>   
                     <label htmlFor="website_url" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Course Level</label>
                     <select name = "courseLevel" id="">
                     {
-                        courseLevel.map((cl)=>{
+                        category.length > 0 && courseLevel.map((cl)=>{
                             return(
-                                    <option className="bg-amber-950" value={cl}> {cl} </option>
+                                    <option key={cl} className="bg-amber-950" value={cl}> {cl} </option>
                                 )
                             }) 
                     }
