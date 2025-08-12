@@ -4,6 +4,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AppDispatch } from "../../store";
 import {API, APIWITHTOKEN} from "@/lib/http";
 import { IInstituteCourseInitialData } from "./institute-course-type";
+import { IInstituteCoursePostData } from "./institute-course-type";
 
 const initialState : IInstituteCourseInitialData = {
     status : Status.LOADING,
@@ -22,7 +23,7 @@ const instituteCourseSlice = createSlice({
         }, 
         // to delete from frontend also
         setDeleteCourse(state, action : PayloadAction<string>){
-            const index = state.courses.findIndex(course=>course.id = action.payload)
+            const index = state.courses.findIndex(course=>course.id == action.payload)
             if(index !== -1){
                 state.courses.splice(index,1)
             }
@@ -30,7 +31,7 @@ const instituteCourseSlice = createSlice({
         setEditCourse(state, action : PayloadAction<any>){
             const id = action.payload.id
             const data = action.payload.data
-            const index = state.courses.findIndex(course=>course.id = id)
+            const index = state.courses.findIndex(course=>course.id == id)
             if(index !== -1){ // index vetena vane -1 auxa
                 state.courses[index] = data
             }
@@ -41,10 +42,14 @@ const instituteCourseSlice = createSlice({
 export const{setStatus,setCourse, setDeleteCourse,setEditCourse} = instituteCourseSlice.actions
 export default instituteCourseSlice.reducer 
 
-export function createInstituteCourse(data:any){
+export function createInstituteCourse(data:IInstituteCoursePostData){
     return async function createInstituteCourseThunk(dispatch:AppDispatch){
         try {
-            const response = await APIWITHTOKEN.post("institute/course", data)
+            const response = await APIWITHTOKEN.post("institute/course", data,{
+                headers : {
+                    "Content-Type" : "multipart/form-data"
+                }
+            })
             if(response.status === 200){
                 dispatch(setStatus(Status.SUCCESS))
             } else {

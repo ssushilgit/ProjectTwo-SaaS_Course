@@ -41,6 +41,7 @@ function InstituteTeacher(){
                     <th scope="col" className="p-5 text-left text-sm leading-6 font-semibold text-gray-900 capitalize rounded-t-xl"> ID </th>
                     <th scope="col" className="p-5 text-left text-sm leading-6 font-semibold text-gray-900 capitalize"> Name </th>
                     <th scope="col" className="p-5 text-left text-sm leading-6 font-semibold text-gray-900 capitalize"> Email </th>
+                    <th scope="col" className="p-5 text-left text-sm leading-6 font-semibold text-gray-900 capitalize"> Photo </th>
                     <th scope="col" className="p-5 text-left text-sm leading-6 font-semibold text-gray-900 capitalize"> Phone Number </th>
                     <th scope="col" className="p-5 text-left text-sm leading-6 font-semibold text-gray-900 capitalize"> Expertise </th>
                     <th scope="col" className="p-5 text-left text-sm leading-6 font-semibold text-gray-900 capitalize"> Joined Date </th>
@@ -53,6 +54,7 @@ function InstituteTeacher(){
                     <tr className="bg-white transition-all duration-500 hover:bg-gray-50">
                     <td className="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900 "> A</td>
                     <td className="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900"> A </td>
+                    <td className="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900"> A</td>
                     <td className="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900"> A</td>
                     <td className="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900"> A</td>
                     <td className="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900"> A</td>

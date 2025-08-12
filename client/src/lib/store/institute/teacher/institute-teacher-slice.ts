@@ -1,6 +1,6 @@
 // institute-course-slice.ts
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { IInstituteTeacher, IInstituteTeacherInitialData, teacherExpertise } from "./institute-teacher-type";
+import { IInstituteTeacher, IInstituteTeacherInitialData } from "./institute-teacher-type";
 import { Status } from "@/lib/types/type";
 import { AppDispatch } from "../../store";
 import { APIWITHTOKEN} from "@/lib/http";
@@ -29,7 +29,11 @@ export default instituteTeacherSlice.reducer
 export function createInstituteTeacher(data : IInstituteTeacher){
     return async function createInstituteTeacherThunk(dispatch : AppDispatch){
         try {
-            const response = await APIWITHTOKEN.post("institute/teacher", data)
+            const response = await APIWITHTOKEN.post("institute/teacher", data, {
+                headers : {
+                    "Content-Type" : "multipart/form-data"
+                }
+            })
             if(response.status === 200){
                 dispatch(setStatus(Status.SUCCESS))
             } else {

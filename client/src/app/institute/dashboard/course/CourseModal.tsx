@@ -1,7 +1,7 @@
 import { useAppDispatch, useAppSelector } from "@/lib/store/hooks"
-import { addCategories, fetchCategories } from "@/lib/store/institute/category/institute-category-slice"
-import { IInstituteCategoryAddData } from "@/lib/store/institute/category/institute-category-type"
-import { fetchInstituteCourse } from "@/lib/store/institute/course/institute-course-slice"
+import { fetchCategories } from "@/lib/store/institute/category/institute-category-slice"
+import { createInstituteCourse, fetchInstituteCourse } from "@/lib/store/institute/course/institute-course-slice"
+import { IInstituteCoursePostData } from "@/lib/store/institute/course/institute-course-type"
 import { Status } from "@/lib/types/type"
 import { ChangeEvent, useEffect, useState } from "react"
 
@@ -10,28 +10,37 @@ interface ICloseModal{
 }
 
 const courseLevel = ["Basic", "Intermediate", "Advance"]
-
+ 
 const CourseModal:React.FC<ICloseModal>=({closeModal})=>{
     const {category} = useAppSelector((store)=>store.category)
     console.log(category)
     const dispatch = useAppDispatch()
     const {status} = useAppSelector((store)=>store.category)
-    const [courseData, setCourseData] = useState<IInstituteCategoryAddData>({
-        categoryName : "",
-        categoryDescription : ""
+    const [courseData, setCourseData] = useState<IInstituteCoursePostData>({
+        courseName : "",
+        courseDescription : "",
+        courseDuration : "",
+        courseLevel :"",
+        coursePrice : "",
+        courseThumbnail : null,
+        categoryId : ""
+
     })
 
-    const handleCategoryChange = (e :ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) =>{
+    const handleCourseChange = (e :ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) =>{
         const {name, value} = e.target
+        //@ts-ignore
+        // console.log(e.target.files[0])
         setCourseData({
             ...courseData,
-            [name] : value
+            // @ts-ignore
+            [name] : name === "courseThumbnail" ? e.target.files[0] : value
         })
     }
 
-    const handleCategorySubmission = async (e:ChangeEvent<HTMLFormElement>) =>{
+    const handleCourseSubmission = async (e:ChangeEvent<HTMLFormElement>) =>{
         e.preventDefault()
-        await dispatch(addCategories(courseData))
+        await dispatch(createInstituteCourse(courseData))
         if(status == Status.SUCCESS){
             closeModal()
         }
@@ -42,7 +51,7 @@ const CourseModal:React.FC<ICloseModal>=({closeModal})=>{
         if(category.length === 0){
             dispatch(fetchCategories())
         }
-    })
+    }, [])
 
   
     return(
@@ -58,31 +67,31 @@ const CourseModal:React.FC<ICloseModal>=({closeModal})=>{
             </button>
             </div>
 
-            <form onSubmit={handleCategorySubmission} className="space-y-4">
+            <form onSubmit={handleCourseSubmission} className="space-y-4">
             <div>
                 <label htmlFor="website_url" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Course Name</label>
-                <input onChange={handleCategoryChange} name="courseName" type="text" id="website_url" className="w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500" placeholder="" required />
+                <input onChange={handleCourseChange} name="courseName" type="text" id="website_url" className="w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500" placeholder="" required />
             </div>
             <div>
                 <label htmlFor="website_url" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Course Price</label>
-                <input onChange={handleCategoryChange} name="coursePrice" type="text" id="website_url" className="w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500" placeholder="" required />
+                <input onChange={handleCourseChange} name="coursePrice" type="text" id="website_url" className="w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500" placeholder="" required />
             </div>
                 
             <div className="flex justify-between">
                 <div>
                     <label htmlFor="website_url" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Course Thumbnail</label>
-                    <input onChange={handleCategoryChange} name="courseThumbnail" type="file" id="website_url" className="w-55 mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500" placeholder="" required />
+                    <input onChange={handleCourseChange} name="courseThumbnail" type="file" id="website_url" className="w-55 mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500" placeholder="" required />
                 </div>
                 <div>
                     <label htmlFor="website_url" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Course Duration</label>
-                    <input onChange={handleCategoryChange} name="courseDuration" type="text" id="website_url" className="w-40 mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500" placeholder=" " required />
+                    <input onChange={handleCourseChange} name="courseDuration" type="text" id="website_url" className="w-40 mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500" placeholder=" " required />
                 </div>
               
             </div>            
             <div className="flex justify-between">
                   <div>
                     <label htmlFor="website_url" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Course Category</label>
-                      <select name = "courseCategory" id="">
+                      <select onChange={handleCourseChange} name = "categoryId" id="">
                     {
                         category.map((cat)=>{
                             return(
@@ -94,7 +103,7 @@ const CourseModal:React.FC<ICloseModal>=({closeModal})=>{
                 </div>
                 <div>   
                     <label htmlFor="website_url" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Course Level</label>
-                    <select name = "courseLevel" id="">
+                    <select onChange={handleCourseChange} name = "courseLevel" id="">
                     {
                         category.length > 0 && courseLevel.map((cl)=>{
                             return(
@@ -109,7 +118,7 @@ const CourseModal:React.FC<ICloseModal>=({closeModal})=>{
 
               <div>
                 <label htmlFor="website_url" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Course Description</label>
-                <textarea onChange={handleCategoryChange} name ="courseDescription" id="website_url" className="w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500" placeholder="" required />
+                <textarea onChange={handleCourseChange} name ="courseDescription" id="website_url" className="w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500" placeholder="" required />
             </div>
             
 
