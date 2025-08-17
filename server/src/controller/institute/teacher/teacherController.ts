@@ -6,22 +6,25 @@ import generateRandomPassword from "../../../services/generateRandomPassword";
 import sendMail from "../../../services/sendMail";
 
 const createTeacher = async (req : IExtendedRequest, res : Response) =>{
+//     console.log("BODY:", req.body);
+//   console.log("FILE:", req.file);
     const instituteNumber = req.user?.currentInstituteNumber
-    const {teacherName, teacherEmail, teacherPhoneNumber, teacherExpertise, joinedDate, salary, courseId } = req.body
+    const {teacherName, teacherEmail, teacherPhoneNumber, teacherExperience, teacherJoinedDate, teacherSalary, courseId } = req.body
     const teacherPhoto = req.file ? req.file.path : "https://thumbs.dreamstime.com/b/profile-anonymous-face-icon-gray-silhouette-person-male-default-avatar-photo-placeholder-white-background-vector-illustration-106473768.jpg"
-    if(!teacherName || !teacherEmail || !teacherPhoneNumber || !teacherExpertise || !joinedDate || !salary){
+
+    if(!teacherName || !teacherEmail || !teacherPhoneNumber || !teacherExperience || !teacherJoinedDate || !teacherSalary || !courseId){
         return res.status(400).json({
-            message : "Please provide teacherName, teacherEmail, teacherPhoneNumber, teacherExpertise, teacherSalary, teacherJoinedDate"
+            message : "Please provide teacherName, teacherEmail, teacherPhoneNumber, teacherExperience, teacherSalary, teacherJoinedDate, courseId "
         })
     }
  
     // password generate function
     const data = generateRandomPassword(teacherName)
     const insertedData = await sequelize.query(`INSERT INTO teacher_${instituteNumber} 
-        (teacherName, teacherEmail, teacherPhoneNumber, teacherExpertise, salary, joinedDate, teacherPhoto, teacherPassword)
+        (teacherName, teacherEmail, teacherPhoneNumber, teacherExperience, teacherSalary, teacherJoinedDate, teacherPhoto, teacherPassword)
         VALUES(?,?,?,?,?,?,?,?)`,{
             type : QueryTypes.INSERT,
-            replacements : [teacherName, teacherEmail, teacherPhoneNumber, teacherExpertise, salary, joinedDate, teacherPhoto, data.hashedVersion]
+            replacements : [teacherName, teacherEmail, teacherPhoneNumber, teacherExperience, teacherSalary, teacherJoinedDate, teacherPhoto, data.hashedVersion]
         })
 
     const teacherData : {id:string}[]= await sequelize.query(`SELECT id FROM teacher_${instituteNumber} WHERE teacherEmail=?`,{
