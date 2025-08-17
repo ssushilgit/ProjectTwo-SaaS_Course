@@ -5,9 +5,8 @@ import { Status } from "@/lib/types/type";
 const initialState : ITeacherInitialData = {
     teacher : {
         teacherName : "",
-        teacherAddress : "",
-        teacherExpertise : "",
-        teacherSalary : ""
+        teacherEmail : "",
+        teacherPhoneNumber : ""
     },
     status :Status.LOADING
 }

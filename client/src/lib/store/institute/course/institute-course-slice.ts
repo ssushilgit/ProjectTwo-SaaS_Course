@@ -2,9 +2,10 @@
 import { Status } from "@/lib/types/type";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { AppDispatch } from "../../store";
-import {API, APIWITHTOKEN} from "@/lib/http";
 import { IInstituteCourseInitialData } from "./institute-course-type";
 import { IInstituteCoursePostData } from "./institute-course-type";
+import APIWITHTOKEN from "@/lib/http/ApiWithToken";
+import API from "@/lib/http/Api";
 
 const initialState : IInstituteCourseInitialData = {
     status : Status.LOADING,
@@ -68,7 +69,7 @@ export function fetchInstituteCourse(){
             const response = await APIWITHTOKEN.get("institute/course")
             if(response.status === 200){
                 dispatch(setStatus(Status.SUCCESS))
-                response.data.data > 0 && dispatch(setCourse(response.data.data))
+                response.data.data.length > 0 && dispatch(setCourse(response.data.data))
             } else {
                 dispatch(setStatus(Status.ERROR))
             } 

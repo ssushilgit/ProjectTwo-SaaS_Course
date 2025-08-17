@@ -3,7 +3,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IInstituteTeacher, IInstituteTeacherInitialData } from "./institute-teacher-type";
 import { Status } from "@/lib/types/type";
 import { AppDispatch } from "../../store";
-import { APIWITHTOKEN} from "@/lib/http";
+import APIWITHTOKEN from "@/lib/http/ApiWithToken";
 
 const initialState : IInstituteTeacherInitialData = {
     teachers: [],
@@ -27,21 +27,22 @@ export const {setStatus, setTeacher} = instituteTeacherSlice.actions
 export default instituteTeacherSlice.reducer
 
 export function createInstituteTeacher(data : IInstituteTeacher){
-    return async function createInstituteTeacherThunk(dispatch : AppDispatch){
+        return async function createInstituteTeacherThunk(dispatch:AppDispatch){
         try {
-            const response = await APIWITHTOKEN.post("institute/teacher", data, {
+            const response = await APIWITHTOKEN.post("institute/teacher",data,{
                 headers : {
                     "Content-Type" : "multipart/form-data"
                 }
-            })
+            } )
             if(response.status === 200){
                 dispatch(setStatus(Status.SUCCESS))
-            } else {
+            }else{
                 dispatch(setStatus(Status.ERROR))
             }
         } catch (error) {
             console.log(error)
-            dispatch(setStatus(Status.ERROR))
+                dispatch(setStatus(Status.ERROR))
+            
         }
     }
 }
@@ -53,7 +54,7 @@ export function fetchInstituteTeacher(){
             if(response.status === 200){
                 dispatch(setStatus(Status.SUCCESS))
                 if(response.data.data > 0){
-                response.data.data && dispatch(setTeacher(response.data.data))
+                response.data.data.length >0  && dispatch(setTeacher(response.data.data))
                 }
             } else {
                 dispatch(setStatus(Status.ERROR))

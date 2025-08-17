@@ -5,7 +5,7 @@ import { useEffect, useState } from "react"
 import TeacherModal from "./TeacherModal"
 import { FiEdit } from "react-icons/fi";
 import { FiTrash2 } from "react-icons/fi";
-
+ 
 function InstituteTeacher(){
 
     const dispatch = useAppDispatch()

@@ -10,19 +10,19 @@ interface ICloseModal{
 }
 
 const TeacherModal:React.FC<ICloseModal>=({closeModal})=>{
-  const { courses } = useAppSelector(store => store.course);
-console.log("Courses in component:", courses);
-    const dispatch = useAppDispatch()
-    const {status} = useAppSelector((store)=>store.category)
+    const { courses } = useAppSelector(store => store.course);
+    console.log("Courses in component:", courses);
+    const dispatch = useAppDispatch()   
+    const {status} = useAppSelector((store)=>store.teacher)
     const [teacherData, setTeacherData] = useState<IInstituteTeacher>({
         courseId : "",
         teacherName : "",
         teacherEmail : "",
         teacherExperience : "",
-        teacherJoinedDate : "",
+        teacherJoinedDate : "", 
         teacherPhoneNumber : "",
         teacherSalary : "",
-        teacherPhoto : null
+        teacherPhoto : null 
     })
 
     const handleTeacherChange = (e :ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) =>{
@@ -37,9 +37,10 @@ console.log("Courses in component:", courses);
     const handleTeacherSubmission = async (e:ChangeEvent<HTMLFormElement>) =>{
         e.preventDefault()
         await dispatch(createInstituteTeacher(teacherData))
-        if(status == Status.SUCCESS){
+        if(status === Status.SUCCESS){
             closeModal()
         }
+        console.log("Teacher data sending", teacherData)
     }
 
     useEffect(()=>{
@@ -59,6 +60,7 @@ console.log("Courses in component:", courses);
             </button>
             </div>
 
+
             <form onSubmit={handleTeacherSubmission} className="space-y-4">
             <div>
                 <label htmlFor="website_url" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Teacher Name</label>
@@ -66,11 +68,11 @@ console.log("Courses in component:", courses);
             </div>
             <div>
                 <label htmlFor="website_url" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Teacher Email</label>
-                <input onChange={handleTeacherChange} name="teacherEmail" type="email" id="website_url" className="w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500" placeholder="shresthasushil741@gmail.com   " required />
+                <input onChange={handleTeacherChange} name="teacherEmail" type="email" id="website_url" className="w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500" placeholder="shresthasushil741@gmail.com" required />
             </div>
             <div>
                 <label htmlFor="website_url" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Teacher Photo</label>
-                <input onChange={handleTeacherChange} name="teacherEmail" type="file" id="website_url" className="w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500" placeholder="shresthasushil741@gmail.com   " required />
+                <input onChange={handleTeacherChange} name="teacherPhoto" type="file" id="website_url" className="w-full mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500" placeholder="shresthasushil741@gmail.com   " required />
             </div>
                  <div>
                     <label htmlFor="website_url" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Teacher Phone Number</label>
@@ -83,21 +85,21 @@ console.log("Courses in component:", courses);
                 </div>
                 <div>
                     <label htmlFor="website_url" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Teacher Joined Date</label>
-                    <input onChange={handleTeacherChange} name="joinedDate" type="date" id="website_url" className="w-50 mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500" placeholder="28/06/2024 " required />
+                    <input onChange={handleTeacherChange} name="teacherJoinedDate" type="date" id="website_url" className="w-50 mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500" placeholder="28/06/2024 " required />
                 </div>
             </div>            
             <div className="flex justify-between">
                 <div>
                     <label htmlFor="website_url" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Teacher Salary</label>
-                    <input onChange={handleTeacherChange} name="salary" type="text" id="website_url" className="w-45 mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500" placeholder="45000 " required />
+                    <input onChange={handleTeacherChange} name="teacherSalary" type="text" id="website_url" className="w-45 mt-1 p-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-500 dark:focus:ring-indigo-400 bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-200 placeholder-gray-400 dark:placeholder-gray-500" placeholder="45000 " required />
                 </div>
                 <div>
-                    <label  htmlFor="website_url" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Teacher Course</label>
-                    <select onChange={handleTeacherChange} name = "courseId" id="">
+                    <label htmlFor="website_url" className="block text-sm font-medium text-gray-700 dark:text-gray-300">Teacher Course</label>
+                    <select onChange={handleTeacherChange} name ="courseId" id="">
                     {
-                         courses.length > 0 && courses.map((course)=>{
+                         courses.length > 0 && courses.map((course, index)=>{
                             return(
-                                    <option value={course.id}> {course.courseName} </option>
+                                    <option className="bg-amber-950" key={`${course.id}-${index}`} value={course.id}> {course.courseName} </option>
                                 )
                             }) 
                     }
@@ -105,7 +107,6 @@ console.log("Courses in component:", courses);
                 </div>
             </div>
             
-
             <div className="flex justify-end gap-3">
                 <button onClick={closeModal} id="cancelButton" className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-md hover:bg-gray-50 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-600 dark:hover:bg-gray-600">
                 Cancel

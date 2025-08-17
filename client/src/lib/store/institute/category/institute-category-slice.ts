@@ -2,8 +2,7 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { IInstituteCategory, IInstituteCategoryAddData, IInstituteCategoryInitialData } from "./institute-category-type";
 import { Status } from "@/lib/types/type";
 import { AppDispatch } from "../../store";
-import { APIWITHTOKEN } from "@/lib/http";
-import { act } from "react";
+import APIWITHTOKEN from "@/lib/http/ApiWithToken";
 
 const initialState : IInstituteCategoryInitialData = {
     category : [],

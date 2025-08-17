@@ -16,10 +16,11 @@ export interface IInstituteTeacher{
     teacherName : string,
     teacherEmail : string,
     teacherPhoneNumber : string,
-    teacherExpertise : teacherExpertise | null,
+    teacherExperience : string,
     teacherSalary : string,
     teacherJoinedDate : string,
-    teacherPhoto :string,
+    teacherPhoto :File | null,
+    courseId : string
 }
 
 interface IInstituteTeacherWithCourse extends IInstituteTeacher{
@@ -30,3 +31,4 @@ export interface IInstituteTeacherInitialData {
     teachers : IInstituteTeacherWithCourse[],
     status : Status
 }
+
