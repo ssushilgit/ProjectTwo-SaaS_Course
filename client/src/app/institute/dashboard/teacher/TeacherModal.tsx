@@ -22,7 +22,8 @@ const TeacherModal:React.FC<ICloseModal>=({closeModal})=>{
         teacherJoinedDate : "", 
         teacherPhoneNumber : "",
         teacherSalary : "",
-        teacherPhoto : null 
+        teacherPhoto : null ,
+        id : ""
     })
 
     const handleTeacherChange = (e :ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) =>{

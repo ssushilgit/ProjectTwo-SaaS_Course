@@ -17,8 +17,8 @@ const instituteTeacherSlice = createSlice({
         setStatus(state : IInstituteTeacherInitialData, action : PayloadAction<Status>){
             state.status = action.payload
         },
-        setTeacher(state: IInstituteTeacherInitialData, action : PayloadAction<IInstituteTeacher>){
-            state.teachers.push(action.payload)
+        setTeacher(state: IInstituteTeacherInitialData, action : PayloadAction<IInstituteTeacher[]>){
+            state.teachers = action.payload
         }
     }
 })
@@ -42,7 +42,7 @@ export function createInstituteTeacher(data : IInstituteTeacher){
         } catch (error) {
             console.log(error)
                 dispatch(setStatus(Status.ERROR))
-            
+             
         }
     }
 }
@@ -53,9 +53,7 @@ export function fetchInstituteTeacher(){
             const response = await APIWITHTOKEN.get("institute/teacher")
             if(response.status === 200){
                 dispatch(setStatus(Status.SUCCESS))
-                if(response.data.data > 0){
                 response.data.data.length >0  && dispatch(setTeacher(response.data.data))
-                }
             } else {
                 dispatch(setStatus(Status.ERROR))
             }

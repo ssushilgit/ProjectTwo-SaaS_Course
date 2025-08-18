@@ -1,5 +1,5 @@
 "use client"
-import { useAppDispatch } from "@/lib/store/hooks"
+import { useAppDispatch, useAppSelector } from "@/lib/store/hooks"
 import { fetchInstituteTeacher } from "@/lib/store/institute/teacher/institute-teacher-slice"
 import { useEffect, useState } from "react"
 import TeacherModal from "./TeacherModal"
@@ -13,9 +13,15 @@ function InstituteTeacher(){
     const openModal =()=> setIsModalOpen(true)
     const closeModal =()=> setIsModalOpen(false)
 
+    const {teachers} = useAppSelector((store)=>store.instituteTeacher)
+    console.log(teachers, "Teachers")
+
     useEffect(()=>{
         dispatch(fetchInstituteTeacher())
     }, [])
+
+    const [searchTerm, setSearchTerm] = useState<string>("")
+    const filteredTeacher = teachers.filter((teacher)=>teacher.teacherName.toLowerCase().includes(searchTerm.toLowerCase()))
 
     return(
          <>
@@ -28,7 +34,7 @@ function InstituteTeacher(){
                         <div className="absolute inset-y-0 left-1 flex items-center pl-3 pointer-events-none ">
                            
                         </div>
-                        <input  type="text" id="default-search" className="block w-80 h-11 pr-5 pl-12 py-2.5 text-base font-normal shadow-xs text-gray-900 bg-transparent border border-gray-300 rounded-full placeholder-gray-400 focus:outline-none" placeholder="Search for teacher" />
+                        <input onChange={(e)=>setSearchTerm(e.target.value)}  type="text" id="default-search" className="block w-80 h-11 pr-5 pl-12 py-2.5 text-base font-normal shadow-xs text-gray-900 bg-transparent border border-gray-300 rounded-full placeholder-gray-400 focus:outline-none" placeholder="Search for Teacher" />
                     </div>
                     <button onClick={openModal} className="h-[40px] rounded-md bg-gradient-to-br from-green-600 to-emerald-400 px-3 py-1 font-dm text-sm font-medium text-white shadow-md shadow-green-400/50 transition-transform duration-200 ease-in-out hover:scale-[1.03]"> Create Teacher</button>
                 </div>
@@ -50,16 +56,18 @@ function InstituteTeacher(){
                     </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-300 ">
-                   
-                    <tr className="bg-white transition-all duration-500 hover:bg-gray-50">
-                    <td className="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900 "> A</td>
-                    <td className="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900"> A </td>
-                    <td className="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900"> A</td>
-                    <td className="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900"> A</td>
-                    <td className="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900"> A</td>
-                    <td className="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900"> A</td>
-                    <td className="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900"> A</td>
-                    <td className="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900"> A</td>
+
+                {filteredTeacher.length > 0 && filteredTeacher.map((teacher)=>{
+                    return(
+                    <tr key={teacher.id } className="bg-white transition-all duration-500 hover:bg-gray-50">
+                    <td className="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900"> {teacher.id}</td>
+                    <td className="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900"> {teacher.teacherName} </td>
+                    <td className="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900"> {teacher.teacherEmail}</td>
+                    <td className="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900"> </td>
+                    <td className="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900"> {teacher.teacherPhoneNumber}</td>
+                    <td className="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900"> {teacher.teacherExperience}</td>
+                    <td className="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900"> {teacher.teacherJoinedDate}</td>
+                    <td className="p-5 whitespace-nowrap text-sm leading-6 font-medium text-gray-900"> {teacher.teacherSalary}</td>
                     <td className=" p-5 ">
                         <div className="flex items-center gap-1">
                         <button className="p-2  rounded-full  group transition-all duration-500  flex item-center">
@@ -82,6 +90,9 @@ function InstituteTeacher(){
                         </div>
                     </td>
                     </tr>
+                    )
+                })}   
+                    
                     
             
                 </tbody>
