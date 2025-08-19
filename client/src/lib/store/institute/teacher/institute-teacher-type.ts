@@ -13,6 +13,7 @@ export interface IIntituteTeacherCourse {
 }
 
 export interface IInstituteTeacher{
+    id : string,
     teacherName : string,
     teacherEmail : string,
     teacherPhoneNumber : string,

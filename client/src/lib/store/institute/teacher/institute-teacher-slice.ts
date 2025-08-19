@@ -19,11 +19,17 @@ const instituteTeacherSlice = createSlice({
         },
         setTeacher(state: IInstituteTeacherInitialData, action : PayloadAction<IInstituteTeacher[]>){
             state.teachers = action.payload
+        },
+        setDeleteTeacher(state: IInstituteTeacherInitialData, action : PayloadAction<string>){
+            const index = state.teachers.findIndex(teacher => teacher.id === action.payload)
+            if(index !== -1){
+                state.teachers.splice(index,1)
+            }
         }
     }
 })
 
-export const {setStatus, setTeacher} = instituteTeacherSlice.actions
+export const {setStatus, setTeacher, setDeleteTeacher} = instituteTeacherSlice.actions
 export default instituteTeacherSlice.reducer
 
 export function createInstituteTeacher(data : IInstituteTeacher){
@@ -71,6 +77,7 @@ export function deleteInstituteTeacherById(id:string){
             if(response.status === 200){
                 dispatch(setStatus(Status.SUCCESS))
                 // popout teacher of that id from slice too
+                dispatch(setDeleteTeacher(id))
             } else {
                 dispatch(setStatus(Status.ERROR))
             }

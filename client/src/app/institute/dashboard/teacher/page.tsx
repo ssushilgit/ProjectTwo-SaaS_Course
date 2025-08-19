@@ -1,6 +1,6 @@
 "use client"
 import { useAppDispatch, useAppSelector } from "@/lib/store/hooks"
-import { fetchInstituteTeacher } from "@/lib/store/institute/teacher/institute-teacher-slice"
+import { deleteInstituteTeacherById, fetchInstituteTeacher } from "@/lib/store/institute/teacher/institute-teacher-slice"
 import { useEffect, useState } from "react"
 import TeacherModal from "./TeacherModal"
 import { FiEdit } from "react-icons/fi";
@@ -22,6 +22,10 @@ function InstituteTeacher(){
 
     const [searchTerm, setSearchTerm] = useState<string>("")
     const filteredTeacher = teachers.filter((teacher)=>teacher.teacherName.toLowerCase().includes(searchTerm.toLowerCase()))
+
+    const deleteTeacher = (id : string )=>{
+        id && dispatch(deleteInstituteTeacherById(id))
+    }
 
     return(
          <>
@@ -76,7 +80,7 @@ function InstituteTeacher(){
                                     className="cursor-pointer text-indigo-500" 
                             />
                         </button>
-                        <button  className="p-2 rounded-full  group transition-all duration-500  flex item-center">
+                        <button onClick={()=>deleteTeacher(teacher.id)} className="p-2 rounded-full  group transition-all duration-500  flex item-center">
                             <FiTrash2
                                 size={20}
                                 className="cursor-pointer text-red-500"

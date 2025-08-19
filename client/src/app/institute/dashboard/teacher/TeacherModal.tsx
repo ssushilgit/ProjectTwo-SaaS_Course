@@ -44,6 +44,7 @@ const TeacherModal:React.FC<ICloseModal>=({closeModal})=>{
         console.log("Teacher data sending", teacherData)
     }
 
+    
     useEffect(()=>{
         dispatch(fetchInstituteCourse())
     },[] )
